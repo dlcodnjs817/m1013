@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+*.pyc
+
+# Rendered frames/videos too large for GitHub (453MB)
+sim_out/
+
+# Model weights too large for GitHub (>100MB limit)
+*.safetensors
