@@ -94,7 +94,7 @@ def eval_candidate(kin, d, episodes, anchors_cache):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage2-top", type=int, default=5)
-    ap.add_argument("--out", default="/home/kim/tx90/m1013/sweep_result.json")
+    ap.add_argument("--out", default="/home/kim/m1013/sweep_result.json")
     args = ap.parse_args()
 
     kin = M1013Kin()

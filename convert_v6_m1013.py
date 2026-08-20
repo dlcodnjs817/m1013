@@ -143,7 +143,7 @@ def convert_episode(kin, ep):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--episodes", default=None)
-    ap.add_argument("--out", default="/home/kim/tx90/m1013/v6_staging")
+    ap.add_argument("--out", default="/home/kim/m1013/v6_staging")
     args = ap.parse_args()
     eps = ([int(x) for x in args.episodes.split(",")] if args.episodes else list(range(N_EP)))
 

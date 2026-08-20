@@ -25,7 +25,7 @@ def main():
                     help="straight: 일자 그리퍼(손목 45° 보정 데이터셋용, 권장) / 나머지: 구버전")
     args = ap.parse_args()
 
-    d6 = pd.read_parquet(f"/home/kim/tx90/m1013/v6_staging/data/chunk-000/episode_{args.ep:06d}.parquet")
+    d6 = pd.read_parquet(f"/home/kim/m1013/v6_staging/data/chunk-000/episode_{args.ep:06d}.parquet")
     ac6 = np.stack(d6["action"]).astype(float)          # (T,7) joint6 + gripper
     joints = ac6[:, :6]
     grip = ac6[:, 6]
@@ -95,7 +95,7 @@ def main():
     cube_place = np.array([grasp_place[0], grasp_place[1], cube_c_z])
     T0 = kin.fk(joints[0])
 
-    out = f"/home/kim/tx90/m1013/replay_ep{args.ep:03d}.npz"
+    out = f"/home/kim/m1013/replay_ep{args.ep:03d}.npz"
     np.savez(out, joints=joints, grip=grip, grip_closed=closed,
              cube_pick=cube_pick, cube_place=cube_place, cube_size=CUBE,
              finger_ext=F, flange0=T0, table_top_z=TABLE_TOP_Z, tcp=TCP,

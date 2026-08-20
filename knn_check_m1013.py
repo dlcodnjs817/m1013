@@ -10,7 +10,7 @@ import pandas as pd
 
 
 V5 = "/home/kim/physical_ai_tools/docker/huggingface/lerobot/dlcodnjs/tx90_act_pick_and_place_v5_ee"
-V6 = "/home/kim/tx90/m1013/v6_staging"
+V6 = "/home/kim/m1013/v6_staging"
 OFF = np.array([+0.15, -0.15, +0.10])
 
 info = json.load(open(f"{V5}/meta/info.json"))

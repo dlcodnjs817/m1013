@@ -12,7 +12,7 @@ import subprocess
 import numpy as np
 
 H = np.array([0.7001, -0.3221])   # 실증 홀드 지점 (접촉밴드 높이 z=0.4031 기준, fingertraj_cal35)
-OUT = "/home/kim/tx90/m1013/sim_out"
+OUT = "/home/kim/m1013/sim_out"
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--ep", type=int, default=0)
@@ -22,7 +22,7 @@ args = ap.parse_args()
 c = H.copy()
 for it in range(1, args.iters + 1):
     label = f"fit{it}"
-    cmd = (f"cd /home/kim/isaacsim && ./python.sh /home/kim/tx90/m1013/replay_isaac.py "
+    cmd = (f"cd /home/kim/isaacsim && ./python.sh /home/kim/m1013/replay_isaac.py "
            f"--ep {args.ep} --no-render --label {label} --cube-at {c[0]:.4f},{c[1]:.4f}")
     subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=600)
     res = json.load(open(f"{OUT}/replay_ep{args.ep:03d}_result.json"))

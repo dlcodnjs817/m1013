@@ -1,9 +1,4 @@
-# Python
 __pycache__/
 *.pyc
-
-# Rendered frames/videos too large for GitHub (453MB)
-sim_out/
-
-# Model weights too large for GitHub (>100MB limit)
-*.safetensors
+# 영상 프레임 원본 (수백 MB, mp4 로 대체됨 — replay_isaac.py --video 로 재생성 가능)
+sim_out/frames_*/

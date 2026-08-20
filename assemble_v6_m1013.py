@@ -23,7 +23,7 @@ import pandas as pd
 import argparse
 _ap = argparse.ArgumentParser()
 _ap.add_argument("--hf", default="/home/kim/physical_ai_tools/docker/huggingface/lerobot/dlcodnjs")
-_ap.add_argument("--staging", default="/home/kim/tx90/m1013/v6_staging")
+_ap.add_argument("--staging", default="/home/kim/m1013/v6_staging")
 _a = _ap.parse_args()
 HF = _a.hf
 V5 = f"{HF}/tx90_act_pick_and_place_v5_ee"

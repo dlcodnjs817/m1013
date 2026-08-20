@@ -47,7 +47,7 @@ try:
     from isaacsim.core.utils.types import ArticulationAction
     from pxr import UsdPhysics, UsdGeom, UsdShade, Gf
 
-    DATA = np.load(f"/home/kim/tx90/m1013/replay_ep{args.ep:03d}.npz")
+    DATA = np.load(f"/home/kim/m1013/replay_ep{args.ep:03d}.npz")
     JOINTS = DATA["joints"]; GRIP = DATA["grip"]
     if args.pred_npz:
         P = np.load(args.pred_npz)["pred"]
@@ -56,7 +56,7 @@ try:
     CUBE_PICK = DATA["cube_pick"]; CUBE_PLACE = DATA["cube_place"]
     CUBE = float(DATA["cube_size"]); TABLE_Z = float(DATA["table_top_z"])
     FLANGE0 = DATA["flange0"]
-    OUT = "/home/kim/tx90/m1013/sim_out"
+    OUT = "/home/kim/m1013/sim_out"
     os.makedirs(OUT, exist_ok=True)
 
     # 그리퍼 기하 (LEHR 일자 장착 + 일자 어태치먼트):
