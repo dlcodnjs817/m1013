@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """M1013 전신 캡처 (PPT 용) — Isaac Sim 헤드리스 렌더 2장.
 
-  cd /home/kim/isaacsim && ./python.sh /home/kim/m1013/capture_m1013.py
+  cd /home/kim/isaacsim && ./python.sh /home/kim/m1013/capture_m1013.py [--bare]
 
-출력:
+출력 (기본):
   sim_out/m1013_full_alone.png  — 바닥 + 로봇 전신 (에셋 검증 슬라이드용)
   sim_out/m1013_full_scene.png  — 테이블 + 큐브 포함 전체 씬
+출력 (--bare, 테이블·큐브 없이 로봇만):
+  sim_out/m1013_only_front.png / m1013_only_side.png
 """
+
+import sys
+BARE = "--bare" in sys.argv
 
 from isaacsim import SimulationApp
 app = SimulationApp({"headless": True})
@@ -44,14 +49,15 @@ try:
     print("ART_ROOT:", root_path, flush=True)
     assert root_path
 
-    table = FixedCuboid("/World/table", name="table",
-                        position=np.array([0.705, -0.15, TABLE_Z - 0.025]),
-                        scale=np.array([0.49, 0.60, 0.05]), color=np.array([0.55, 0.4, 0.25]))
-    world.scene.add(table)
-    cube = DynamicCuboid("/World/cube", name="cube",
-                         position=CUBE_PICK, size=CUBE, mass=0.015,
-                         color=np.array([0.1, 0.2, 0.9]))
-    world.scene.add(cube)
+    if not BARE:
+        table = FixedCuboid("/World/table", name="table",
+                            position=np.array([0.705, -0.15, TABLE_Z - 0.025]),
+                            scale=np.array([0.49, 0.60, 0.05]), color=np.array([0.55, 0.4, 0.25]))
+        world.scene.add(table)
+        cube = DynamicCuboid("/World/cube", name="cube",
+                             position=CUBE_PICK, size=CUBE, mass=0.015,
+                             color=np.array([0.1, 0.2, 0.9]))
+        world.scene.add(cube)
 
     art = SingleArticulation(root_path, name="m1013")
     world.scene.add(art)
@@ -76,10 +82,17 @@ try:
         cam.set_world_pose(position=pos, orientation=q)
         return cam
 
-    # 컷 1: 로봇 전신 (베이스~팔꿈치 정점까지 다 보이게, 약간 위에서)
-    cam1 = make_cam("/World/cam1", pos=[3.5, 2.85, 1.5], tgt=[0.15, -0.05, 0.5])
-    # 컷 2: 씬 전체 (로봇 + 테이블 + 큐브)
-    cam2 = make_cam("/World/cam2", pos=[3.8, -2.9, 2.2], tgt=[0.5, -0.1, 0.75])
+    if BARE:
+        # 로봇 단독: 정면(테이블 있던 쪽) + 측면
+        cam1 = make_cam("/World/cam1", pos=[3.3, -2.6, 1.55], tgt=[0.15, -0.05, 0.55])
+        cam2 = make_cam("/World/cam2", pos=[3.5, 2.85, 1.5], tgt=[0.15, -0.05, 0.5])
+        shots = ((cam1, "m1013_only_front.png"), (cam2, "m1013_only_side.png"))
+    else:
+        # 컷 1: 로봇 전신 (베이스~팔꿈치 정점까지 다 보이게, 약간 위에서)
+        cam1 = make_cam("/World/cam1", pos=[3.5, 2.85, 1.5], tgt=[0.15, -0.05, 0.5])
+        # 컷 2: 씬 전체 (로봇 + 테이블 + 큐브)
+        cam2 = make_cam("/World/cam2", pos=[3.8, -2.9, 2.2], tgt=[0.5, -0.1, 0.75])
+        shots = ((cam1, "m1013_full_alone.png"), (cam2, "m1013_full_scene.png"))
 
     world.reset()
     cam1.initialize(); cam2.initialize()
@@ -97,7 +110,7 @@ try:
     for _ in range(30):
         world.step(render=True)
 
-    for cam, name in ((cam1, "m1013_full_alone.png"), (cam2, "m1013_full_scene.png")):
+    for cam, name in shots:
         rgba = cam.get_rgba()
         for _ in range(60):
             if rgba is not None and getattr(rgba, "ndim", 0) == 3 and rgba.shape[0] > 1:
