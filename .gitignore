@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 # 영상 프레임 원본 (수백 MB, mp4 로 대체됨 — replay_isaac.py --video 로 재생성 가능)
 sim_out/frames_*/
+
+# 외부 저장소 클론 (두산 공식, 443MB — 별도 관리)
+doosan-robot2/
+.~lock.*#
