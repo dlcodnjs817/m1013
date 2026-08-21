@@ -84,7 +84,7 @@ try:
     world.scene.add_default_ground_plane()
     stage = get_current_stage()
 
-    add_reference_to_stage("/home/kim/doosan-robot2/dsr_description2/usd/m1013.usd", "/World/m1013")
+    add_reference_to_stage("/home/kim/m1013/doosan-robot2/dsr_description2/usd/m1013.usd", "/World/m1013")
     root_path = link6_path = None
     for prim in stage.Traverse():
         p = prim.GetPath().pathString

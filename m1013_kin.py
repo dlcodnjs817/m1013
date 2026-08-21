@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
-URDF = "/home/kim/doosan-robot2/dsr_description2/urdf/m1013.urdf"
+URDF = "/home/kim/m1013/doosan-robot2/dsr_description2/urdf/m1013.urdf"
 # 표준 m1013.urdf 실스펙 리밋
 JOINT_LIMITS = np.deg2rad(np.array([
     [-360, 360], [-360, 360], [-160, 160], [-360, 360], [-360, 360], [-360, 360]], float))
