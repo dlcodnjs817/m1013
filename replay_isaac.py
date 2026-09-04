@@ -17,7 +17,8 @@ ap.add_argument("--no-render", action="store_true")
 ap.add_argument("--calibrate", action="store_true",
                 help="큐브 없이 재생하며 핑거 궤적만 기록 (큐브 위치 실증 결정용)")
 ap.add_argument("--cube-at", default=None, help="큐브 위치 덮어쓰기 'x,y' (캘리브레이션 결과)")
-ap.add_argument("--gap-close", type=float, default=0.031)
+ap.add_argument("--gap-close", type=float, default=None,
+                help="닫힘 갭[m]. 미지정 시 npz 의 실물값(33.5mm) 사용")
 ap.add_argument("--video", action="store_true", help="프레임 캡처 → frames_<label>/ PNG")
 ap.add_argument("--video-from", type=int, default=0)
 ap.add_argument("--video-to", type=int, default=10**9)
@@ -61,11 +62,20 @@ try:
 
     # 그리퍼 기하 (LEHR 일자 장착 + 일자 어태치먼트):
     # 손목 45° 보정 데이터셋에서는 파지 시 플랜지 z 가 세계 수직 → 빔 = 플랜지 z 방향.
-    X0 = 0.058            # 핑거 마운트 |x| (개구 폭 기준)
+    X0 = 0.058            # 핑거 바디 원점 |x| (프리즘 앵커; 실제 갭은 set_gap 이 결정)
     D_LOCAL = np.array([0.0, 0.0, 1.0])
-    BEAM_L = float(DATA["finger_ext"])   # prep 이 파지 기하에서 계산 (마운트→팁)
-    F_HALF = (0.008, 0.012, BEAM_L / 2)
-    GAP_OPEN, GAP_CLOSE = 0.070, args.gap_close
+    # 실물 MHF2-16D2 + 핑거 어태치먼트 기하 (prep_replay_ep 가 npz 로 전달, 플랜지 로컬 m).
+    # 종전: 파지 기하에 맞춰 피팅한 빔 (BEAM_L=0.1388, 플랜지+0.07 시작) — 상판 높이 오류의 산물.
+    BEAM_L = float(DATA["finger_ext"])            # 조 길이 38mm
+    JAW_Z0 = float(DATA["finger_z0"])             # 조 시작 45mm (블록 밑면)
+    JAW_W, JAW_T = map(float, DATA["jaw_wt"])     # 조 폭 30 / 두께 13.25
+    BODY_X, BODY_Y, BODY_Z = map(float, DATA["body_xyz"])
+    BODY_Z0, BODY_Z1 = map(float, DATA["body_z"])
+    F_HALF = (JAW_T / 2, JAW_W / 2, BEAM_L / 2)
+    BODY_HALF = (BODY_X / 2, BODY_Y / 2, BODY_Z / 2)
+    BODY_OFF = (0.0, 0.0, (BODY_Z0 + BODY_Z1) / 2 - 0.035)   # 바디 원점(플랜지+0.035) 기준
+    GAP_CLOSE = float(DATA["jaw_gap_closed"]) if args.gap_close is None else args.gap_close
+    GAP_OPEN = GAP_CLOSE + 2 * float(DATA["jaw_stroke_half"])       # 편측 32 → 97.5mm
 
     def gap_of(a):
         return float(np.clip(np.interp(a, [-0.02, 0.695], [GAP_CLOSE, GAP_OPEN]),
@@ -125,12 +135,12 @@ try:
         return FLANGE0 @ L
 
     base_prim, _ = make_body("/World/gripper_base", local_T(0, 0, 0.035),
-                             (0.042, 0.032, 0.035), 0.9, (0.85, 0.85, 0.9))
+                             BODY_HALF, 0.9, (0.85, 0.85, 0.9), geom_off=BODY_OFF)
     gq = quat_align_z(D_LOCAL)
     goff = D_LOCAL * BEAM_L / 2
-    fingerL, geoL = make_body("/World/fingerL", local_T(-X0, 0, 0.07),
+    fingerL, geoL = make_body("/World/fingerL", local_T(-X0, 0, JAW_Z0),
                               F_HALF, 0.05, (0.2, 0.2, 0.25), geom_off=goff, geom_quat=gq)
-    fingerR, geoR = make_body("/World/fingerR", local_T(+X0, 0, 0.07),
+    fingerR, geoR = make_body("/World/fingerR", local_T(+X0, 0, JAW_Z0),
                               F_HALF, 0.05, (0.2, 0.2, 0.25), geom_off=goff, geom_quat=gq)
 
     fj = UsdPhysics.FixedJoint.Define(stage, "/World/gripper_fj")
@@ -145,7 +155,7 @@ try:
         pj.CreateBody0Rel().SetTargets(["/World/gripper_base"])
         pj.CreateBody1Rel().SetTargets([body])
         pj.CreateAxisAttr("X")
-        pj.CreateLocalPos0Attr(Gf.Vec3f(sx * X0, 0, 0.035))
+        pj.CreateLocalPos0Attr(Gf.Vec3f(sx * X0, 0, JAW_Z0 - 0.035))
         pj.CreateLocalPos1Attr(Gf.Vec3f(0, 0, 0))
         pj.CreateLowerLimitAttr(-0.06)
         pj.CreateUpperLimitAttr(0.06)

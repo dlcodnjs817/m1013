@@ -37,6 +37,11 @@ try:
     TABLE_Z = float(DATA["table_top_z"])
     FLANGE0 = DATA["flange0"]
     BEAM_L = float(DATA["finger_ext"])
+    JAW_Z0 = float(DATA["finger_z0"])
+    JAW_W, JAW_T = map(float, DATA["jaw_wt"])
+    BODY_X, BODY_Y, BODY_Z = map(float, DATA["body_xyz"])
+    BODY_Z0, BODY_Z1 = map(float, DATA["body_z"])
+    GAP_CLOSE = float(DATA["jaw_gap_closed"])
     OUT = "/home/kim/m1013/sim_out/frontcam_probe"
     os.makedirs(OUT, exist_ok=True)
 
@@ -93,12 +98,13 @@ try:
         geo.AddScaleOp().Set(Gf.Vec3f(2 * half[0], 2 * half[1], 2 * half[2]))
         geo.CreateDisplayColorAttr([Gf.Vec3f(*color)])
 
-    F_HALF = (0.008, 0.012, BEAM_L / 2)
+    F_HALF = (JAW_T / 2, JAW_W / 2, BEAM_L / 2)
     goff = (0.0, 0.0, BEAM_L / 2)
-    static_box("/World/gbase", (0, 0, 0.035), (0.042, 0.032, 0.035), (0.85, 0.85, 0.9))
-    x_open = 0.070 / 2 + F_HALF[0]   # 열린 갭 기준 핑거 중심 |x|
-    static_box("/World/gfL", (-x_open, 0, 0.07), F_HALF, (0.2, 0.2, 0.25), geom_off=goff)
-    static_box("/World/gfR", (+x_open, 0, 0.07), F_HALF, (0.2, 0.2, 0.25), geom_off=goff)
+    static_box("/World/gbase", (0, 0, (BODY_Z0 + BODY_Z1) / 2),
+               (BODY_X / 2, BODY_Y / 2, BODY_Z / 2), (0.85, 0.85, 0.9))
+    x_open = GAP_CLOSE / 2 + F_HALF[0]   # 파지 순간이므로 닫힘 기준
+    static_box("/World/gfL", (-x_open, 0, JAW_Z0), F_HALF, (0.2, 0.2, 0.25), geom_off=goff)
+    static_box("/World/gfR", (+x_open, 0, JAW_Z0), F_HALF, (0.2, 0.2, 0.25), geom_off=goff)
 
     art = SingleArticulation(root_path, name="m1013")
     world.scene.add(art)

@@ -13,14 +13,27 @@ app = SimulationApp({"headless": True})
 import numpy as np
 import traceback
 
-U_APP = np.array([-0.655, -0.755, 0.0]); U_APP /= np.linalg.norm(U_APP)
-# 롤 미세보정: WR90(큐브 좌하 215°)에서 +40°/+55° 더 돌려 하단 중앙(270°) 조준
-ROT = {"R130": np.array([-0.999, 0.016, 0.0]), "R145": np.array([-0.970, -0.243, 0.0])}
-WCANDS = [
-    dict(name="V1_r130_off40", pos=0.040 * U_APP + [0, 0, 0.05], f=18.0, u=ROT["R130"]),
-    dict(name="V2_r145_off40", pos=0.040 * U_APP + [0, 0, 0.05], f=18.0, u=ROT["R145"]),
-    dict(name="V3_r145_off60", pos=0.060 * U_APP + [0, 0, 0.05], f=18.0, u=ROT["R145"]),
-]
+# ★ 2026-09-04 §8 재정합. TCP 정정(플랜지→파지점 67.5mm)으로 종전 구성
+# (pos 0.060*U_APP+[0,0,0.05], forward [0,0,1]) 은 파지 순간 이탈각 73.7° = 완전 화면 밖.
+# 위치·틸트·FOV 를 다시 풀었다. 조준은 파지점이 화면 세로 0.55 지점에 오도록.
+AP_H = 20.955
+def _focal(hfov):
+    return AP_H / 2 / np.tan(np.radians(hfov / 2))
+def _roll(pos, f, deg):
+    """f 를 광축으로 하는 up 힌트. deg=0 은 파지점 방향을 화면 아래로 두는 기준."""
+    f = f / np.linalg.norm(f)
+    v = np.array([0.0, 0.0, 0.0675]) - pos
+    u0 = -(v - (v @ f) * f); u0 /= np.linalg.norm(u0)      # 파지점 반대편 = 화면 위
+    yc0 = np.cross(u0, f); yc0 /= np.linalg.norm(yc0)
+    th = np.radians(deg)
+    return np.cos(th) * u0 + np.sin(th) * yc0
+
+WSET = [("P1", np.array([0.060, -0.075, 0.005]), np.array([-0.487, 0.393, 0.780]), 90.0),
+        ("P2", np.array([0.040, -0.060, 0.010]), None, 90.0)]
+# P2 는 짧은 팔 대안 — forward 는 P1 과 같은 조준 규칙으로 근사
+WSET[1] = ("P2", WSET[1][1], np.array([-0.487, 0.393, 0.780]), 90.0)
+WCANDS = [dict(name=f"{tag}_r{r:03d}", pos=pos, f=_focal(h), u=_roll(pos, fwd, r), fwd=fwd)
+          for tag, pos, fwd, h in WSET for r in (0, 90, 180, 270)]
 FRONT = dict(pos=(1.20, -0.25, 0.46), tgt=(0.45, -0.15, 0.52), f=15.0)  # F1_base 확정값
 
 try:
@@ -46,6 +59,11 @@ try:
     TABLE_Z = float(DATA["table_top_z"])
     FLANGE0 = DATA["flange0"]
     BEAM_L = float(DATA["finger_ext"])
+    JAW_Z0 = float(DATA["finger_z0"])
+    JAW_W, JAW_T = map(float, DATA["jaw_wt"])
+    BODY_X, BODY_Y, BODY_Z = map(float, DATA["body_xyz"])
+    BODY_Z0, BODY_Z1 = map(float, DATA["body_z"])
+    GAP_CLOSE = float(DATA["jaw_gap_closed"])
     OUT = "/home/kim/m1013/sim_out/wristcam_probe"
     os.makedirs(OUT, exist_ok=True)
 
@@ -70,7 +88,7 @@ try:
     # 렌더용 확대 테이블 — 실물처럼 손목캠 시야에 모서리가 안 들어오게 (상판 z 동일)
     table = FixedCuboid("/World/table", name="table",
                         position=np.array([0.705, -0.15, TABLE_Z - 0.025]),
-                        scale=np.array([0.85, 1.10, 0.05]), color=np.array([0.72, 0.72, 0.70]))
+                        scale=np.array([1.60, 2.00, 0.05]), color=np.array([0.72, 0.72, 0.70]))
     world.scene.add(table)
     wall = FixedCuboid("/World/wall", name="wall",
                        position=np.array([-0.55, 0.0, 1.25]),
@@ -89,7 +107,7 @@ try:
         return Gf.Quatf(float(qw), float(qx), float(qy), float(qz))
 
     # 그리퍼 정적 형상 — 포즈 갱신 가능하게 op 핸들 보관
-    F_HALF = (0.008, 0.012, BEAM_L / 2)
+    F_HALF = (JAW_T / 2, JAW_W / 2, BEAM_L / 2)
     grip_parts = []   # (translate_op, orient_op, local_T)
     def static_box(path, local_off, half, color, geom_off=None):
         L = np.eye(4); L[:3, 3] = local_off
@@ -103,10 +121,11 @@ try:
         geo.CreateDisplayColorAttr([Gf.Vec3f(*color)])
         grip_parts.append((top, rop, L))
 
-    x_open = 0.070 / 2 + F_HALF[0]
-    static_box("/World/gbase", (0, 0, 0.035), (0.042, 0.032, 0.035), (0.85, 0.85, 0.9))
-    static_box("/World/gfL", (-x_open, 0, 0.07), F_HALF, (0.2, 0.2, 0.25), geom_off=(0, 0, BEAM_L / 2))
-    static_box("/World/gfR", (+x_open, 0, 0.07), F_HALF, (0.2, 0.2, 0.25), geom_off=(0, 0, BEAM_L / 2))
+    x_open = GAP_CLOSE / 2 + F_HALF[0]   # 파지 순간이므로 닫힘 기준
+    static_box("/World/gbase", (0, 0, (BODY_Z0 + BODY_Z1) / 2),
+               (BODY_X / 2, BODY_Y / 2, BODY_Z / 2), (0.85, 0.85, 0.9))
+    static_box("/World/gfL", (-x_open, 0, JAW_Z0), F_HALF, (0.2, 0.2, 0.25), geom_off=(0, 0, BEAM_L / 2))
+    static_box("/World/gfR", (+x_open, 0, JAW_Z0), F_HALF, (0.2, 0.2, 0.25), geom_off=(0, 0, BEAM_L / 2))
 
     def set_gripper(T_flange):
         for top, rop, L in grip_parts:
@@ -142,7 +161,7 @@ try:
     # 손목캠: link_6 하위 prim → 물리가 손목을 움직이면 함께 움직임
     wcams = []
     for c in WCANDS:
-        q_w = lookat_quat_wxyz([0, 0, 1.0], c["u"])   # 전방=로컬+z(하강 방향)
+        q_w = lookat_quat_wxyz(c["fwd"], c["u"])      # 전방 = 조준 벡터 (틸트 반영)
         cam = Camera(f"{link6_path}/{c['name']}", resolution=(640, 480))
         cam.set_local_pose(np.asarray(c["pos"], float), q_w, camera_axes="world")
         wcams.append((c, cam))
@@ -172,6 +191,28 @@ try:
             world.step(render=False)
         for _ in range(30):
             world.step(render=True)
+        for c, cam in wcams:
+            try:
+                wp, wq = cam.prim.GetAttribute("xformOp:translate"), None
+            except Exception:
+                pass
+            try:
+                cw, cq = cam.get_world_pose()
+                Tf = kin.fk(q)
+                Rw = Rotation.from_quat([cq[1], cq[2], cq[3], cq[0]]).as_matrix()
+                loc_p = Tf[:3, :3].T @ (cw - Tf[:3, 3])
+                loc_R = Tf[:3, :3].T @ Rw
+                print(f"POSE {c['name']} {tag}: local_pos(mm)={np.round(loc_p*1000,1)}\n"
+                      f"     local_R cols x={np.round(loc_R[:,0],3)} y={np.round(loc_R[:,1],3)} "
+                      f"z={np.round(loc_R[:,2],3)}\n"
+                      f"     기대 fwd={np.round(c['fwd'],3)}", flush=True)
+                K = cam.get_intrinsics_matrix()
+                px = cam.get_image_coords_from_world_points(np.array([CUBE_PICK]))
+                print(f"DIAG {c['name']} {tag}: K_fx={K[0,0]:.1f} K_fy={K[1,1]:.1f} "
+                      f"cx={K[0,2]:.1f} cy={K[1,2]:.1f} HFOV={2*np.degrees(np.arctan(320/K[0,0])):.1f}° "
+                      f"cube_px={np.round(px,1)}", flush=True)
+            except Exception as e:
+                print("DIAG fail", c["name"], repr(e), flush=True)
         for c, cam in list(wcams) + [(dict(name="front"), fcam)]:
             rgba = cam.get_rgba()
             for _ in range(60):

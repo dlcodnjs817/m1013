@@ -29,9 +29,20 @@ CORR = orient_corr()
 V5 = "/home/kim/physical_ai_tools/docker/huggingface/lerobot/dlcodnjs/tx90_act_pick_and_place_v5_ee"
 N_EP = 159
 OFFSET = np.array([+0.05, -0.15, +0.10])  # 손목 45° 보정 반영 스윕+기하검사 확정 (2026-08-20)
-# TCP 길이 (플랜지 link_6 → 핑거 끝). v5 pose 를 TCP 목표로 해석: 플랜지 = p - R@[0,0,TCP].
-# LEHR 본체 + 3D 프린팅 핑거 잠정값 — 실물 확정 시 재측정 후 재변환할 것.
-TCP = 0.12
+# 플랜지(link_6) → 파지점 = 조 사이 큐브 중심. v5 pose 를 파지점 목표로 해석:
+#   플랜지 = p - R@[0,0,TCP]
+#
+# ★ 2026-09-04 정정. 종전 0.12 는 "플랜지 → 핑거 끝" 이었으나 정의가 틀렸다.
+#   v5 추적점 = OMX end_effector_link 이고, 원본 OMX 데이터에서 이 점은 파지 순간
+#   큐브 중심과 일치한다:  ep0 파지 z=0.0752  vs  큐브중심 0.0574+0.0175=0.0749  (오차 0.3mm)
+#   (0.0574 = 그리퍼 개폐 전이 시점 z 평균 = Umeyama 4코너 기준면)
+#   따라서 TCP 는 "핑거 끝"이 아니라 "조 사이 큐브 중심"까지의 거리다.
+#
+# MHF2-16D2 + 핑거 어태치먼트 실물 CAD (2026-09-03 확정, 플랜지 로컬):
+JAW_TIP   = 0.083    # 조 끝 (플랜지면 기준). 조는 z 45~83
+CUBE_SIZE = 0.035    # 폼 큐브
+JAW_CLEAR = 0.002    # 파지 시 조 끝이 상판 위로 띄우는 여유
+TCP = JAW_TIP + JAW_CLEAR - CUBE_SIZE / 2   # = 0.0675
 ANCHOR_K = 5
 SMOOTH_W = 7
 NUDGE_DEG = 3.0
