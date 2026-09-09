@@ -1,0 +1,46 @@
+# M1013 v7 실기 수집용 physical_ai_server 설정.
+#
+# 설치:  physical_ai_server 패키지의 config/ 에 넣으면 로봇 타입 목록에 자동으로 잡힌다.
+#        (get_robot_type_list() 가 config/*.yaml 파일명에서 타입을 뽑는다)
+#          docker cp m1013_config.yaml physical_ai_server:<pkg>/config/m1013_config.yaml
+#
+# ── OMX 설정과 다른 점 ──────────────────────────────────────────────
+# OMX 는 리더-팔로워 텔레옵이었다: action = 리더 암 관절, state = 팔로워 실측.
+# M1013 에는 리더 암이 없다. 대신 replay_v6_real.py 가 **의도한 관절 목표**를
+# /replay/joint_command 로 30 Hz 발행해 리더 역할을 한다.
+#   action = 재생 명령값  (v6 의 action 정의와 의미가 같다 = 목표 관절값)
+#   state  = /joint_states 실측값
+# 이렇게 해야 v6 로 학습한 베이스와 규약이 어긋나지 않는다.
+#
+# ── 사전 조건 ───────────────────────────────────────────────────────
+#   camera_uvc_node.py --dev N --name camera1   (손목캠, 1280x720 → 640x480 크롭)
+#   camera_uvc_node.py --dev M --name camera2   (정면캠, 동일)
+#   gripper_ctl.py --node                        (policy/gripper → 플랜지 DO)
+#   replay_v6_real.py --episodes ...             (재생 + 명령값 발행)
+#
+# 2026-09-09 작성.
+
+physical_ai_server:
+  ros__parameters:
+    m1013:
+      observation_list:
+        - camera1        # 손목캠 — 파지 정렬
+        - camera2        # 정면캠 — 작업 공간 전체
+        - state
+      camera_topic_list:
+        - camera1:/camera1/image_raw/compressed
+        - camera2:/camera2/image_raw/compressed
+      joint_topic_list:
+        - follower:/joint_states            # 실측 → observation.state
+        - leader:/replay/joint_command      # 재생 명령값 → action
+      joint_list:
+        - leader
+      joint_order:
+        leader:
+          - joint_1
+          - joint_2
+          - joint_3
+          - joint_4
+          - joint_5
+          - joint_6
+          - gripper     # replay_v6_real.py 가 0.0(닫힘)/1.0(열림) 로 실어 보낸다

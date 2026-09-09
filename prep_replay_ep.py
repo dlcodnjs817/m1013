@@ -41,8 +41,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ep", type=int, default=0)
     ap.add_argument("--cube-size", type=float, default=0.035)
-    ap.add_argument("--staging", default="/home/kim/m1013/v6_staging_tcp0675",
-                    help="TCP 정정(0.0675) 변환 결과. 구 v6_staging 은 TCP=0.12 규약이라 호환 안 됨")
+    ap.add_argument("--staging", default="/home/kim/m1013/v6_staging",
+                    help="현행 변환 결과 (TCP 0.0725, 2026-09-09). "
+                         "v6_staging_tcp0675 는 판 3mm 관통이라 폐기, v6_staging_tcp012 는 구정의라 폐기")
     ap.add_argument("--tip-mode", choices=["straight", "deep", "center", "bent"], default="straight",
                     help="straight: 일자 그리퍼(손목 45° 보정 데이터셋용, 권장) / 나머지: 구버전")
     args = ap.parse_args()

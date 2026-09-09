@@ -7,7 +7,7 @@
 from isaacsim import SimulationApp
 app = SimulationApp({"headless": True})
 
-import numpy as np, traceback
+import numpy as np, traceback, sys
 
 try:
     from isaacsim.core.api import World
@@ -25,7 +25,9 @@ try:
     # ---- §8 확정 후보 (플랜지 로컬) ----
     CAM_POS = np.array([0.060, -0.075, 0.005])
     CAM_FWD = np.array([-0.487, 0.393, 0.780])
-    HFOV = 90.0
+    # HFOV: 인자로 덮어쓸 수 있다 (기본 90.0 = §8 확정값).
+    #   U20CAM-720P 를 1280x720 -> 960x720 중앙크롭 -> 640x480 으로 받으면 85.6
+    HFOV = float(sys.argv[1]) if len(sys.argv) > 1 else 90.0
     AP_H = 20.955
 
     D = np.load("/home/kim/m1013/replay_ep000.npz")
@@ -130,23 +132,35 @@ try:
     T_cam_fl = np.eye(4)
     T_cam_fl[:3, 0] = -yc; T_cam_fl[:3, 1] = up; T_cam_fl[:3, 2] = -f
     T_cam_fl[:3, 3] = CAM_POS
-    T_cam_l6 = DELTA @ T_cam_fl
-    xf = UsdGeom.Xformable(cam_prim); xf.ClearXformOpOrder()
-    xf.AddTransformOp().Set(Gf.Matrix4d(*T_cam_l6.T.flatten().tolist()))
+    def place_cam(q):
+        # ★ DELTA 를 자세마다 다시 계산해야 한다.
+        #   USD 아티큘레이션의 운동학과 m1013_kin.fk 가 완전히 같지 않아서,
+        #   J[TG] 에서 구한 정적 DELTA 를 쓰면 다른 자세에서 카메라가 최대 190 mm 어긋난다.
+        T = (np.linalg.inv(l6_world()) @ kin.fk(q)) @ T_cam_fl
+        xf = UsdGeom.Xformable(cam_prim); xf.ClearXformOpOrder()
+        xf.AddTransformOp().Set(Gf.Matrix4d(*T.T.flatten().tolist()))
+
+    place_cam(J[TG])
 
     def shot(t, tag):
         goto(J[t])
+        place_cam(J[t])                       # 자세가 바뀌었으니 카메라를 다시 건다
         for _ in range(45): world.step(render=True)
         cw, _ = cam.get_world_pose(); Tf = kin.fk(J[t])
         loc = Tf[:3,:3].T @ (cw - Tf[:3,3])
         px = cam.get_image_coords_from_world_points(np.array([CUBE_PICK]))[0]
+        qerr = np.abs(loc - CAM_POS).max()*1000   # mm
         print(f"{tag}: 카메라 플랜지로컬(mm)={np.round(loc*1000,1)}  큐브 px={np.round(px,1)} "
-              f"(정규화 u={(px[0]-320)/320:+.2f} v={(px[1]-240)/240:+.2f})", flush=True)
+              f"(정규화 u={(px[0]-320)/320:+.2f} v={(px[1]-240)/240:+.2f})  카메라오차 {qerr:.3f} mm", flush=True)
         rgba = cam.get_rgba()
         for _ in range(60):
             if rgba is not None and getattr(rgba,"ndim",0)==3 and rgba.shape[0]>1: break
             world.step(render=True); rgba = cam.get_rgba()
-        Image.fromarray(rgba[:,:,:3]).save(f"{OUT}/{tag}.png")
+        try:
+            Image.fromarray(rgba[:,:,:3]).save(f"{OUT}/{tag}.png")
+        except Exception as e:
+            # 렌더 버퍼가 안 올라와도 픽셀 좌표 출력은 살린다 (검증의 본체는 좌표다)
+            print(f"{tag}: RGBA 저장 실패 — {e}", flush=True)
 
     for t, tag in [(max(0,TC-90),"a_approach90"), (max(0,TC-45),"b_approach45"),
                    (TC,"c_close"), (TG,"d_grasp")]:

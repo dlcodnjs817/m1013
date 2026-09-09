@@ -1,36 +1,131 @@
 {
   "_comment": "OMX v6 학습 영상(camera1=손목캠, camera2=정면캠) 구도 정합 결과 — 2026-08-24. frontcam_probe.py / wristcam_probe.py 로 탐색, 비교컷 sim_out/cam_match_v1.png. Isaac Camera 규약: +X 전방/+Z 상방, focal·aperture 는 cm 단위로 set (mm/10).",
-  "resolution": [640, 480],
+  "resolution": [
+    640,
+    480
+  ],
   "fps": 30,
   "aperture_h_mm": 20.955,
   "aperture_v_mm": 15.716,
   "front_cam": {
     "matches": "observation.images.camera2",
     "mount": "world (고정)",
-    "pos": [1.20, -0.25, 0.46],
-    "look_at": [0.45, -0.15, 0.52],
-    "up": [0, 0, 1],
+    "pos": [
+      1.2,
+      -0.25,
+      0.46
+    ],
+    "look_at": [
+      0.45,
+      -0.15,
+      0.52
+    ],
+    "up": [
+      0,
+      0,
+      1
+    ],
     "focal_mm": 15.0,
     "hfov_deg": 69.9
   },
   "wrist_cam": {
     "matches": "observation.images.camera1",
     "mount": "link_6 하위 prim (플랜지 로컬)",
-    "local_pos": [-0.0393, -0.0453, 0.05],
-    "forward_local": [0, 0, 1],
-    "up_arg_local": [-0.970, -0.243, 0],
+    "local_pos": [
+      -0.0393,
+      -0.0453,
+      0.05
+    ],
+    "forward_local": [
+      0,
+      0,
+      1
+    ],
+    "up_arg_local": [
+      -0.97,
+      -0.243,
+      0
+    ],
     "_up_note": "lookat 의 up 인자값. 실효 이미지-up 은 이 값과 다르게 매핑됨 — 롤 스윕으로 실증 보정한 값이므로 그대로 사용할 것",
     "focal_mm": 18.0,
     "hfov_deg": 60.3
   },
   "scene_render": {
-    "table_pos": [0.705, -0.15, 0.3496],
-    "table_scale": [0.85, 1.10, 0.05],
+    "table_pos": [
+      0.705,
+      -0.15,
+      0.3496
+    ],
+    "table_scale": [
+      0.85,
+      1.1,
+      0.05
+    ],
     "_table_note": "물리 검증용(0.49,0.60)보다 렌더용으로 확대 — 손목캠 시야에 테이블 모서리가 안 들어오게 (실사 조건과 동일). 상판 z=0.3746 동일",
-    "table_color": [0.72, 0.72, 0.70],
-    "wall_pos": [-0.55, 0.0, 1.25],
-    "wall_scale": [0.05, 4.0, 2.5],
-    "wall_color": [0.92, 0.92, 0.90],
-    "yellow_cube_offset_from_place": [0.0, 0.07, 0.0]
+    "table_color": [
+      0.72,
+      0.72,
+      0.7
+    ],
+    "wall_pos": [
+      -0.55,
+      0.0,
+      1.25
+    ],
+    "wall_scale": [
+      0.05,
+      4.0,
+      2.5
+    ],
+    "wall_color": [
+      0.92,
+      0.92,
+      0.9
+    ],
+    "yellow_cube_offset_from_place": [
+      0.0,
+      0.07,
+      0.0
+    ]
+  },
+  "camera_hardware": {
+    "_comment": "2026-09-09 확인 — OMX 리그 손목캠·정면캠 모두 동일 기종. 아래 fitted 값(front_cam/wrist_cam)은 08-24 영상 정합으로 역산한 것이고, 실제 하드웨어 스펙과 아래처럼 어긋난다. 렌더 코드는 fitted 값을 그대로 쓰므로 이 블록은 참조용이다.",
+    "model": "INNOMAKER U20CAM-720P",
+    "board_mm": [
+      32,
+      32
+    ],
+    "interface": "USB 2.0 UVC (드라이버 불필요) · 고정초점 M12 렌즈 · YUY2/MJPEG",
+    "native": {
+      "res": [
+        1280,
+        720
+      ],
+      "fov_d_deg": 120.0,
+      "fov_h_deg": 102.0,
+      "fps": 30
+    },
+    "capture_modes": [
+      {
+        "label": "1280x720 네이티브(16:9)",
+        "crop_w": 1280,
+        "hfov_deg": 102.0,
+        "vfov_deg": 69.6
+      },
+      {
+        "label": "960x720 중앙크롭 -> 640x480 (4:3 최대화각)",
+        "crop_w": 960,
+        "hfov_deg": 85.6,
+        "vfov_deg": 69.6
+      },
+      {
+        "label": "640x480 단순 크롭 (현 OMX 파이프라인 추정)",
+        "crop_w": 640,
+        "hfov_deg": 63.4,
+        "vfov_deg": 49.7
+      }
+    ],
+    "_discrepancy": "fitted 정면 69.9° / 손목 60.3° 는 서로 다르지만 동일 기종·동일 해상도라면 같아야 한다. 640x480 단순크롭 가설의 63.4° 가 두 값 사이에 들어온다 → fitted 값은 정합 오차를 포함한다. 정면캠은 상판 +87.8mm 정정 이후 재검토가 미수행이므로, HFOV 를 63.4° 로 고정하고 위치를 다시 푸는 것이 자유 파라미터가 하나 줄어 유리하다.",
+    "_m1013_wristcam": "09-04 해는 HFOV 90° 를 요구하지만 이 카메라의 4:3 최대는 85.6° (960x720 중앙크롭). v7 수집 파이프라인을 1280x720 -> 960x720 크롭 -> 640x480 으로 잡고 85.6° 로 재검증할 것. 재검증: cd /home/kim/isaacsim && ./python.sh /home/kim/m1013/wristcam_solve.py 85.6"
   }
 }
