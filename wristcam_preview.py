@@ -14,22 +14,16 @@ import numpy as np
 from PIL import Image
 from m1013_kin import M1013Kin
 
+import wristcam_pose as WP
 W, H = 640, 480
-HFOV = float(sys.argv[1]) if len(sys.argv) > 1 else 85.6
-CAM_POS = np.array([0.035, -0.045, 0.000])
-CAM_FWD = np.array([-0.487, 0.393, 0.780])
+HFOV = float(sys.argv[1]) if len(sys.argv) > 1 else WP.HFOV
+CAM_POS, CAM_FWD = WP.CAM_POS, WP.CAM_FWD        # 단일 소스
 OUT = 'sim_out/wristcam_preview'
 os.makedirs(OUT, exist_ok=True)
 
 
 def cam_local(gz):
-    f = CAM_FWD / np.linalg.norm(CAM_FWD)
-    v = np.array([0.0, 0.0, gz]) - CAM_POS
-    up = -(v - (v @ f) * f); up /= np.linalg.norm(up)
-    yc = np.cross(up, f); yc /= np.linalg.norm(yc)
-    T = np.eye(4)
-    T[:3, 0] = -yc; T[:3, 1] = up; T[:3, 2] = -f; T[:3, 3] = CAM_POS
-    return T
+    return WP.basis(tcp=gz)
 
 
 def load_stl(p):

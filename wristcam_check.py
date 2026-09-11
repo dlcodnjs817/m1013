@@ -12,20 +12,17 @@ import sys, glob
 import numpy as np
 from m1013_kin import M1013Kin
 
-CAM_POS = np.array([0.060, -0.075, 0.005])     # 플랜지 로컬 (m) — 09-04 §8 확정
-CAM_FWD = np.array([-0.487, 0.393, 0.780])
+import wristcam_pose as WP
+CAM_POS = WP.CAM_POS.copy()                     # 플랜지 로컬 (m) — wristcam_pose.py 가 단일 소스
+CAM_FWD = WP.CAM_FWD.copy()
+ROLL = WP.ROLL
 FPS, ASPECT = 30.0, 480.0 / 640.0
 
 
 def cam_basis(gz):
-    """wristcam_solve.py 와 동일한 규약(USD: -Z 전방 / +Y 상방)."""
-    f = CAM_FWD / np.linalg.norm(CAM_FWD)
-    v = np.array([0.0, 0.0, gz]) - CAM_POS
-    up = -(v - (v @ f) * f); up /= np.linalg.norm(up)
-    yc = np.cross(up, f); yc /= np.linalg.norm(yc)
-    T = np.eye(4)
-    T[:3, 0] = -yc; T[:3, 1] = up; T[:3, 2] = -f; T[:3, 3] = CAM_POS
-    return T
+    """wristcam_pose.basis 와 동일 규약(USD: -Z 전방 / +Y 상방). 모듈 전역 CAM_POS/CAM_FWD 를
+    바꿔 가며 탐색할 수 있게 여기서 다시 감싼다."""
+    return WP.basis(CAM_POS, CAM_FWD, ROLL, gz)
 
 
 def project(P_world, T_fl, T_cam_fl, hfov_deg):

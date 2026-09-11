@@ -7,21 +7,23 @@
 
 설계 근거
   · 카메라   INNOMAKER U20CAM-720P — 32×32 보드 · Ø2.2 나사홀 ×4(피치 미상) · M12 렌즈
-  · 광심     (35, -45, 0)  ← 09-11 재배치. 09-04 값(60,-75,+5)은 시야여유 0.898 에
-             렌즈 스탠드오프 ±12 mm 를 얹으면 1.03 으로 이탈했다. 재배치판은 0.669.
-  · 광축     (-0.487, +0.393, +0.780)  ← 09-04 값 유지. 파지점 직접조준보다 낫다.
+  · 자세     **wristcam_pose.py 가 단일 소스** — 광심·광축·롤을 거기서 읽는다. 여기엔 복사본 없음.
+             2026-09-11 저녁: 그리퍼 중앙(x=0) 측면 (0,-65,-10), 툴축 Z=140 조준, 보드 세로 장착.
   · 체결     그리퍼 -Y 측면 2-M5 (x=±61, z=32, 면 y=-25), M5×8, 탭깊이 5.5
-  · 구조     좌우 이어 2개 + 무릎 + 패드로 모이는 A-프레임. **좌우를 잇는 판을 두면 안 된다** —
-             y=-27·z=32 의 판 중앙이 화면 (-0.19,-0.28) 로 큐브 궤적과 0.17 까지 겹친다.
+  · 구조     좌우 이어 → 무릎 → 패드로 모이는 **대칭 A-프레임**. 좌우를 잇는 판을 두면 안 된다 —
+             카메라가 그리퍼를 올려다보므로 판이 화면 한가운데를 가로지른다.
+  · 무릎     스트럿 단면이 어댑터 평판(X±70, Y±35, Z -4~12)을 파고들지 않게 Y 를 먼저 뺀다.
   · 나사홀   보드 나사 피치가 미공개라 대각 장공(피치 24~32 수용)으로 처리한다.
 """
 import numpy as np
 import cadquery as cq
 
 # ---------------- 파라미터 ----------------
-CAM = np.array([35.0, -45.0, 0.0])              # 광심
-FWD = np.array([-0.487, 0.393, 0.780])          # 광축
-TCP = 72.5
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+import wristcam_pose as WP
+CAM = WP.CAM_POS * 1000.0                       # 광심 (mm)
+FWD = WP.CAM_FWD.copy()                         # 광축
 LENS_STANDOFF = 15.0    # 보드 앞면 → 광심. ★OMX 리그 카메라로 실측 후 확정할 것
 BOARD_T, BOARD = 1.6, 32.0
 PAD, PAD_T = 40.0, 5.0
@@ -34,12 +36,9 @@ NUT_W, NUT_DEPTH = 4.3, 2.0
 
 
 def cam_frame():
-    """wristcam_check.cam_basis 와 동일 규약 — 카메라 x(우)/y(상)/광축."""
-    f = FWD / np.linalg.norm(FWD)
-    v = np.array([0.0, 0.0, TCP]) - CAM
-    up = -(v - (v @ f) * f); up /= np.linalg.norm(up)
-    yc = np.cross(up, f); yc /= np.linalg.norm(yc)
-    return -yc, up, f                            # xc, yc, f
+    """wristcam_pose.basis 와 동일 규약 — 카메라 x(화면 우)/y(화면 상)/광축."""
+    T = WP.basis()
+    return T[:3, 0], T[:3, 1], -T[:3, 2]        # xc, yc, f
 
 
 XC, YC, F = cam_frame()
@@ -80,7 +79,7 @@ for sx in (+1, -1):
 # 무릎이 없으면 스트럿 단면의 안쪽 모서리가 **어댑터 평판(X±70, Y±35, Z -4~12)** 을 파고든다.
 # 2026-09-11 불리언 검증에서 675.1 mm^3 관통으로 잡혔다. 축은 Y=-35 밖이지만 반폭 7 이
 # z=12 에서 y=-30.9 까지 들어온다. 무릎으로 Y 를 -50 까지 먼저 빼고 내려간다 (어댑터 여유 6.82 mm).
-KNEE_Y, KNEE_Z, KNEE_X = -50.0, 18.0, 57.0
+KNEE_Y, KNEE_Z, KNEE_X = -52.0, 16.0, 38.0   # 중앙 패드용. 어댑터 여유는 make_tool_assembly 로 확인
 BLEND = 9.0                                     # 무릎에서 두 구간을 겹쳐 solid 가 끊기지 않게
 
 

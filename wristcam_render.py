@@ -29,11 +29,11 @@ try:
     sys.path.insert(0, "/home/kim/m1013")
     from m1013_kin import M1013Kin
 
-    # ---- 2026-09-11 확정 손목캠 (플랜지 로컬, m) ----
-    CAM_POS = np.array([0.035, -0.045, 0.000])
-    CAM_FWD = np.array([-0.487, 0.393, 0.780])
+    # ---- 손목캠 자세: wristcam_pose.py 가 단일 소스 ----
+    import wristcam_pose as WP
+    CAM_POS, CAM_FWD = WP.CAM_POS.copy(), WP.CAM_FWD.copy()
     _pos = [a for a in sys.argv[1:] if not a.startswith("--")]
-    HFOV = float(_pos[0]) if _pos else 85.6
+    HFOV = float(_pos[0]) if _pos else WP.HFOV
     AP_H = 20.955
     STL = "/home/kim/m1013/cad/tool_assembly_flangelocal.stl"
     HIDE_ROBOT = "--norobot" in sys.argv                    # A/B: 로봇 링크가 화면에 들어오는지 확인용
@@ -129,13 +129,7 @@ try:
         T = np.eye(4); T[:3, :3] = A[:3, :3]; T[:3, 3] = A[:3, 3]
         return T
 
-    f = CAM_FWD / np.linalg.norm(CAM_FWD)
-    v = np.array([0.0, 0.0, GZ]) - CAM_POS
-    up = -(v - (v @ f) * f); up /= np.linalg.norm(up)
-    yc = np.cross(up, f); yc /= np.linalg.norm(yc)
-    T_cam_fl = np.eye(4)
-    T_cam_fl[:3, 0] = -yc; T_cam_fl[:3, 1] = up; T_cam_fl[:3, 2] = -f
-    T_cam_fl[:3, 3] = CAM_POS
+    T_cam_fl = WP.basis(tcp=GZ)
 
     def hold(q, n, render):
         """드라이브 명령을 **매 스텝** 재적용하며 진행한다. 렌더 스텝에서 apply_action 을 빼먹으면
