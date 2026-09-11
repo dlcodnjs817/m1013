@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'
 import wristcam_pose as WP
 CAM = WP.CAM_POS * 1000.0                       # 광심 (mm)
 FWD = WP.CAM_FWD.copy()                         # 광축
-LENS_STANDOFF = 15.0    # 보드 앞면 → 광심. ★OMX 리그 카메라로 실측 후 확정할 것
+LENS_STANDOFF = 19.0    # 보드 앞면 → 광심. 2026-09-11 실측: 기판 앞면→렌즈 끝 22 mm, 광각 M12 광심은 앞유리 안쪽 ~3 mm
 BOARD_T, BOARD = 1.6, 32.0
 PAD, PAD_T = 40.0, 5.0
 EAR_X, EAR_Z, EAR_Y = 61.0, 32.0, -25.0

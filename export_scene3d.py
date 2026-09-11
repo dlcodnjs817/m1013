@@ -65,7 +65,7 @@ V, F = tess(Q('cad/wristcam_bracket_v2.step').val()); add('손목캠 브래킷',
 
 # ---------------- 카메라 보드 + 렌즈 (wristcam_pose) ----------------
 Tc = WP.basis(); xc, yc, f = Tc[:3, 0], Tc[:3, 1], -Tc[:3, 2]; C = WP.CAM_POS * 1000
-LENS, TB = 15.0, 1.6
+LENS, TB = 19.0, 1.6
 bc = C - f * (LENS + TB / 2)
 board = cq.Workplane(cq.Plane(origin=tuple(bc), xDir=tuple(xc), normal=tuple(f))).rect(32, 32).extrude(TB / 2, both=True)
 V, F = tess(board.val()); add('카메라 보드', 'camera', to_world(V), F, '#2F7D4F', 'U20CAM-720P 32×32 · 세로 장착')
