@@ -19,7 +19,7 @@ import numpy as np, traceback
 try:
     import os, struct
     from isaacsim.core.api import World
-    from isaacsim.core.api.objects import DynamicCuboid, FixedCuboid
+    from isaacsim.core.api.objects import VisualCuboid
     from isaacsim.core.utils.stage import add_reference_to_stage, get_current_stage
     from isaacsim.core.prims import SingleArticulation
     from isaacsim.core.utils.types import ArticulationAction
@@ -32,10 +32,13 @@ try:
     # ---- 2026-09-11 확정 손목캠 (플랜지 로컬, m) ----
     CAM_POS = np.array([0.035, -0.045, 0.000])
     CAM_FWD = np.array([-0.487, 0.393, 0.780])
-    HFOV = float(sys.argv[1]) if len(sys.argv) > 1 else 85.6
+    _pos = [a for a in sys.argv[1:] if not a.startswith("--")]
+    HFOV = float(_pos[0]) if _pos else 85.6
     AP_H = 20.955
     STL = "/home/kim/m1013/cad/tool_assembly_flangelocal.stl"
-    OUT = "/home/kim/m1013/sim_out/wristcam_render"
+    HIDE_ROBOT = "--norobot" in sys.argv                    # A/B: 로봇 링크가 화면에 들어오는지 확인용
+    HIDE_TOOL = "--notool" in sys.argv                      # A/B: 툴 메시가 뭘 가리는지 확인용
+    OUT = "/home/kim/m1013/sim_out/wristcam_render" + ("_norobot" if HIDE_ROBOT else "") + ("_notool" if HIDE_TOOL else "")
     os.makedirs(OUT, exist_ok=True)
     kin = M1013Kin()
 
@@ -67,6 +70,8 @@ try:
     mesh.CreateFaceVertexIndicesAttr(Vt.IntArray(list(range(ntri * 3))))
     mesh.CreateDisplayColorAttr([Gf.Vec3f(0.80, 0.80, 0.84)])
     mesh.CreateSubdivisionSchemeAttr("none")
+    if HIDE_TOOL:
+        UsdGeom.Imageable(stage.GetPrimAtPath("/World/tool")).MakeInvisible()
 
     def quat_of(R):
         w = np.sqrt(max(0.0, 1 + R[0,0] + R[1,1] + R[2,2])) / 2
@@ -81,24 +86,33 @@ try:
         tool_rop.Set(quat_of(T[:3, :3]))
 
     art = SingleArticulation(root_path, name="m1013"); world.scene.add(art)
-    UsdLux.DistantLight.Define(stage, "/World/sun").CreateIntensityAttr(3000.0)
+    if HIDE_ROBOT:
+        UsdGeom.Imageable(stage.GetPrimAtPath("/World/m1013")).MakeInvisible()
+    # 조명 — 3000/900 은 흰 재질에서 클리핑됐다 (큐브까지 245,245,245). 낮춘다.
+    UsdLux.DistantLight.Define(stage, "/World/sun").CreateIntensityAttr(1200.0)
     UsdGeom.Xformable(stage.GetPrimAtPath("/World/sun")).AddRotateXYZOp().Set(Gf.Vec3f(-40, 15, 0))
-    UsdLux.DomeLight.Define(stage, "/World/dome").CreateIntensityAttr(900.0)
+    UsdLux.DomeLight.Define(stage, "/World/dome").CreateIntensityAttr(350.0)
 
     D0 = np.load("/home/kim/m1013/replay_ep000.npz")
     TABLE_Z = float(D0["table_top_z"]); CUBE = float(D0["cube_size"]); GZ = float(D0["tcp"])
-    world.scene.add(FixedCuboid("/World/table", name="table",
+    # 상판·벽·큐브는 **시각 전용**. 렌더용으로 키운 상판(1.4×1.8, x 0.005~)이 충돌체이면
+    # 로봇 어깨(link_2)를 관통해 팔이 명령 자세로 못 올라간다 — 2026-09-11 에 관절 2 가 −0.4 rad 에
+    # 못 박히고 link_6 가 fk 에서 95~858 mm 어긋난 채 렌더된 원인. 물리는 로봇만 돌리면 된다.
+    world.scene.add(VisualCuboid("/World/table", name="table",
         position=np.array([0.705, -0.15, TABLE_Z - 0.025]),
         scale=np.array([1.4, 1.8, 0.05]), color=np.array([0.72, 0.72, 0.70])))
-    world.scene.add(FixedCuboid("/World/wall", name="wall",
+    world.scene.add(VisualCuboid("/World/wall", name="wall",
         position=np.array([-0.55, 0.0, 1.25]), scale=np.array([0.05, 4.0, 2.5]),
         color=np.array([0.92, 0.92, 0.90])))
-    cube = world.scene.add(DynamicCuboid("/World/cube", name="cube",
-        position=np.array(D0["cube_pick"]), size=CUBE, mass=0.015,
+    cube = world.scene.add(VisualCuboid("/World/cube", name="cube",
+        position=np.array(D0["cube_pick"]), size=CUBE,
         color=np.array([0.1, 0.2, 0.9])))
 
-    cam = Camera(f"{link6_path}/wristcam", resolution=(640, 480))
-    cam_prim = stage.GetPrimAtPath(f"{link6_path}/wristcam")
+    # 카메라를 link_6 자식이 아니라 **월드 프림**으로 둔다. 툴 메시와 같이 운동학 플랜지 자세에
+    # 직접 놓으면 DELTA(link_6 prim ↔ fk 플랜지 보정)가 아예 필요 없다 — 09-09 버그 계열 원천 차단.
+    # 물리 팔이 자세에서 몇 mm 흔들려도 카메라·툴·큐브·상판은 전부 운동학 프레임에 정합된다.
+    cam = Camera("/World/wristcam", resolution=(640, 480))
+    cam_prim = stage.GetPrimAtPath("/World/wristcam")
     world.reset(); cam.initialize()
     fmm = AP_H / 2 / np.tan(np.radians(HFOV / 2))
     cam.set_focal_length(fmm / 10); cam.set_horizontal_aperture(AP_H / 10)
@@ -123,41 +137,100 @@ try:
     T_cam_fl[:3, 0] = -yc; T_cam_fl[:3, 1] = up; T_cam_fl[:3, 2] = -f
     T_cam_fl[:3, 3] = CAM_POS
 
+    def hold(q, n, render):
+        """드라이브 명령을 **매 스텝** 재적용하며 진행한다. 렌더 스텝에서 apply_action 을 빼먹으면
+        어깨(joint_2)가 중력에 처져 캡처 순간 link_6 가 수백 mm 어긋난다 (2026-09-11 실측 95~766 mm).
+        카메라·툴은 운동학으로 놓이므로 제자리지만, 처진 팔의 손목이 화면에 들어온다."""
+        for _ in range(n):
+            ctrl.apply_action(ArticulationAction(joint_positions=q, joint_indices=idx))
+            world.step(render=render)
+
     def goto(q, cube_pos):
         art.set_joint_positions(q, joint_indices=idx)
         cube.set_world_pose(position=cube_pos)
-        for _ in range(30):
-            ctrl.apply_action(ArticulationAction(joint_positions=q, joint_indices=idx))
-            world.step(render=False)
+        hold(q, 30, False)
         T_fl = kin.fk(q)
         place_tool(T_fl)
-        # DELTA 는 자세마다 재계산 (09-09 버그 재발 방지)
-        T = (np.linalg.inv(l6_world()) @ T_fl) @ T_cam_fl
+        return T_fl
+
+    def place_cam(T_fl):
+        T = T_fl @ T_cam_fl                                      # 월드 = 플랜지(fk) · 카메라(플랜지로컬)
         # Camera 프림에는 이미 quatd orient op 이 있어 AddOrientOp(float) 은 타입 충돌을
-        # 일으킨다. 행렬 op 하나로 덮어쓰는 편이 안전하다.
+        # 일으킨다. 행렬 op 하나로 덮어쓴다 (Gf 는 행벡터 규약이라 T.T 로 채운다 — 진단으로 확인).
         M = Gf.Matrix4d(*[float(x) for x in T.T.flatten()])
         UsdGeom.Xformable(cam_prim).MakeMatrixXform().Set(M)
-        # 기하 자기일관성 체크 — 카메라 월드 == fk 로 계산한 값이어야 한다
-        cw = l6_world() @ T
-        want = T_fl @ T_cam_fl
-        return float(np.linalg.norm(cw[:3, 3] - want[:3, 3])) * 1000.0
+
+    def verify(T_fl):
+        """프림에서 실제 자세를 읽어 검산 — 카메라 위치·전방, 툴 위치.
+        (l6 @ inv(l6) @ X == X 식은 동어반복이라 아무것도 검증하지 못한다.)"""
+        A = np.array(UsdGeom.Xformable(cam_prim).ComputeLocalToWorldTransform(0)).T
+        cam_p = T_fl[:3, :3].T @ (A[:3, 3] - T_fl[:3, 3])          # 플랜지 로컬 (m)
+        cam_f = T_fl[:3, :3].T @ (-A[:3, 2] / np.linalg.norm(A[:3, 2]))
+        B = np.array(UsdGeom.Xformable(stage.GetPrimAtPath("/World/tool")).ComputeLocalToWorldTransform(0)).T
+        tool_err = np.linalg.norm(B[:3, 3] - T_fl[:3, 3]) * 1000.0
+        f_ = CAM_FWD / np.linalg.norm(CAM_FWD)
+        # 캡처 순간 로봇(USD link_6)이 명령 자세에 있는가 — 카메라·툴은 운동학이라 이걸 안 보면 모른다
+        L6 = np.array(UsdGeom.Xformable(stage.GetPrimAtPath(link6_path)).ComputeLocalToWorldTransform(0)).T
+        rob_err = np.linalg.norm(L6[:3, 3] - T_fl[:3, 3]) * 1000.0
+        qn = art.get_joint_positions()[idx]
+        print("      로봇 link_6 ↔ fk 플랜지 %.2f mm · 관절 %s" % (rob_err, np.round(qn, 2)), flush=True)
+        # Isaac 이 큐브를 어디로 투영하는지 vs 내 기하 투영 — 둘이 다르면 카메라 규약 문제
+        cp_w = np.array(cube.get_world_pose()[0], dtype=float)
+        px = cam.get_image_coords_from_world_points(cp_w[None, :])[0]
+        Tc = T_fl @ T_cam_fl
+        Pc = Tc[:3, :3].T @ (cp_w - Tc[:3, 3])
+        th = np.tan(np.radians(HFOV / 2))
+        mine = ((Pc[0] / -Pc[2]) / th + 1) * 320, (-(Pc[1] / -Pc[2]) / (th * 0.75) + 1) * 240
+        print("      큐브 px  Isaac (%.0f, %.0f)   내 투영 (%.0f, %.0f)   카메라앞 %s"
+              % (px[0], px[1], mine[0], mine[1], Pc[2] < 0), flush=True)
+        return (np.linalg.norm(cam_p - CAM_POS) * 1000.0,
+                float(np.degrees(np.arccos(np.clip(cam_f @ f_, -1, 1)))), tool_err)
 
     print("HFOV %.1f°  카메라 플랜지로컬 (%.0f, %.0f, %.0f) mm"
           % (HFOV, *(CAM_POS * 1000)), flush=True)
+    # 초기 워밍업 — 재부팅 직후 셰이더 컴파일이 수백 프레임을 잡아먹는다. 한 번만 치른다.
+    D_ = np.load("/home/kim/m1013/replay_ep000.npz")
+    place_cam(goto(D_["joints"][0], np.array(D_["cube_pick"], dtype=float)))
+    for i in range(600):
+        hold(D_["joints"][0], 1, True)
+        r_ = cam.get_rgba()
+        if r_ is not None and getattr(r_, "ndim", 0) == 3 and r_.shape[0] > 1:
+            print("렌더 파이프라인 준비 완료 (%d 프레임)" % (i + 1), flush=True); break
+    else:
+        print("경고: 600 프레임 후에도 렌더 버퍼 없음", flush=True)
+
     worst_err = 0.0
     for ep in ("000", "050", "130"):
         D = np.load(f"/home/kim/m1013/replay_ep{ep}.npz")
         J, TC = D["joints"], int(D["t_close"])
         cp = np.array(D["cube_pick"], dtype=float)
-        for tag, t in (("a_approach", max(0, TC - 60)), ("b_mid", max(0, TC - 30)),
-                       ("c_close", max(0, TC - 8)), ("d_grasp", min(TC + 15, len(J) - 1))):
-            err = goto(J[t], cp)
-            worst_err = max(worst_err, err)
-            for _ in range(6):
-                world.step(render=True)
-            Image.fromarray(cam.get_rgba()[:, :, :3]).save(f"{OUT}/ep{ep}_{tag}.png")
-            print("  ep%s %-11s frame %4d  카메라 배치오차 %.4f mm" % (ep, tag, t, err), flush=True)
-    print("\n최악 카메라 배치오차 %.4f mm (0 이어야 정상)" % worst_err)
+        # 프레임을 TCP-큐브 3D 거리로 고른다 (wristcam_preview.py 와 동일). t_close+15 는
+        # 이미 큐브를 든 뒤라 (큐브가 집는 위치에 고정된 이 렌더에서는) 파지 순간이 아니다.
+        Ts_ = [kin.fk(J[k]) for k in range(len(J))]
+        tcp_ = np.array([T_[:3, 3] + T_[:3, 2] * GZ for T_ in Ts_])
+        dist_ = np.linalg.norm(tcp_ - cp, axis=1) * 1000.0
+        g_ = int(np.argmin(dist_[:min(TC + 20, len(J))]))
+        def before(d_mm):
+            c_ = np.where(dist_[:g_ + 1] >= d_mm)[0]
+            return int(c_[-1]) if len(c_) else 0
+        for tag, t in (("a_far", before(300)), ("b_near", before(180)),
+                       ("c_pre", before(110)), ("d_grasp", g_)):
+            T_fl_ = goto(J[t], cp)
+            place_cam(T_fl_)
+            hold(J[t], 60, True)                      # 팔 유지 + 디노이저 수렴
+            pe, ae, te = verify(T_fl_)
+            worst_err = max(worst_err, pe, te)
+            rgba = cam.get_rgba()
+            for _ in range(90):
+                if rgba is not None and getattr(rgba, "ndim", 0) == 3 and rgba.shape[0] > 1:
+                    break
+                hold(J[t], 1, True); rgba = cam.get_rgba()
+            if getattr(rgba, "ndim", 0) != 3:
+                print("  ep%s %-11s 렌더 버퍼 없음 — 건너뜀" % (ep, tag), flush=True); continue
+            Image.fromarray(rgba[:, :, :3]).save(f"{OUT}/ep{ep}_{tag}.png")
+            print("  ep%s %-11s frame %4d  카메라 위치오차 %.3f mm · 전방각오차 %.3f° · 툴 위치오차 %.3f mm"
+                  % (ep, tag, t, pe, ae, te), flush=True)
+    print("\n최악 위치오차 %.3f mm (0 이어야 정상)" % worst_err)
     print("저장 위치:", OUT)
 
 except Exception:
