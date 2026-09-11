@@ -11,12 +11,13 @@
 """
 import sys, os, json, time, argparse, subprocess, socket, struct, pickle
 ap = argparse.ArgumentParser()
-ap.add_argument('--ckpt', required=True, help='컨테이너 안 체크포인트 경로 (pretrained_model)')
+ap.add_argument('--ckpt', default='', help='컨테이너 안 체크포인트 경로 (pretrained_model)')
 ap.add_argument('--n', type=int, default=20); ap.add_argument('--seed', type=int, default=100)
 ap.add_argument('--table_z', type=float, default=0.4624); ap.add_argument('--ws_scale', type=float, default=1.0, help='큐브 배치 영역 배율 (1.0 = v6 분포)')
 ap.add_argument('--max_steps', type=int, default=600); ap.add_argument('--port', type=int, default=5555)
 ap.add_argument('--dr', action='store_true'); ap.add_argument('--tag', default='eval')
 ap.add_argument('--no_server', action='store_true', help='서버를 직접 띄웠을 때')
+ap.add_argument('--oracle', action='store_true', help='정책 대신 스크립트 전문가로 평가기 자체를 검증')
 args = ap.parse_args()
 import numpy as np
 sys.path.insert(0, '/home/kim/m1013')
@@ -36,19 +37,23 @@ def rotz(a):
 
 
 # ---------------- ACT 서버 ----------------
-if not args.no_server:
+if args.oracle:
+    import isaac_expert as E
+    sock = None
+elif not args.no_server:
     subprocess.run('docker exec -i physical_ai_server bash -c "cat > /workspace/act_server.py" < /home/kim/m1013/act_server.py', shell=True, check=True)   # workspace 는 root 소유
     subprocess.run(['docker', 'exec', 'physical_ai_server', 'bash', '-c', f'pkill -f "act_server.py --ckpt" ; true'], check=False)
     subprocess.Popen(['docker', 'exec', 'physical_ai_server', 'python3', '/workspace/act_server.py', '--ckpt', args.ckpt, '--port', str(args.port)],
                      stdout=open(f'{OUT}/act_server.log', 'w'), stderr=subprocess.STDOUT)
-sock = None
-for _ in range(120):
+if not args.oracle:
+  sock = None
+  for _ in range(120):
     try:
         sock = socket.create_connection(('127.0.0.1', args.port), timeout=2); break
     except OSError:
         time.sleep(1)
-if sock is None: raise SystemExit('ACT 서버 연결 실패 — ' + f'{OUT}/act_server.log 확인')
-sock.settimeout(60)
+  if sock is None: raise SystemExit('ACT 서버 연결 실패 — ' + f'{OUT}/act_server.log 확인')
+  sock.settimeout(60)
 
 
 def rpc(m):
@@ -71,14 +76,21 @@ try:
         if args.dr: sc.randomize(rng)
         Tc = np.eye(4); Tc[:3, :3] = rotz(yaw); Tc[:3, 3] = [pk[0], pk[1], args.table_z + CUBE / 2]
         sc.teleport(q); sc.pose_tool(kin.fk(q)); sc.set_cube(Tc); sc.hold(q, 8, True)
-        rpc({'cmd': 'reset'})
+        if args.oracle:                                     # 전문가: 같은 큐브·시작 자세로 궤적을 미리 만든다
+            pl = rng.uniform(*E.PLACE_BOX)
+            while np.linalg.norm(pl - pk) < 0.08: pl = rng.uniform(*E.PLACE_BOX)
+            ex = E.expert(rng, pk, yaw, pl, args.table_z)
+            if ex is None: print('ep%02d 전문가 IK 실패' % ep); continue
+            E_q, E_g = ex[0], ex[1]; q = E_q[0]; sc.teleport(q); sc.pose_tool(kin.fk(q)); sc.hold(q, 8, True)
+        else:
+            rpc({'cmd': 'reset'})
         state = np.r_[q, G_OPEN].astype(np.float32)
         attached = None; grasped = lifted = placed = False; min_d = 1e9; max_dq = 0.0; t_grasp = t_place = None; frames_keep = {}
         g_prev = G_OPEN; pick0 = Tc[:3, 3].copy(); t_end = args.max_steps
         for t in range(args.max_steps):
             im1, im2 = sc.frames()
             if t in (0,): frames_keep[t] = (im1, im2)
-            act = rpc({'cmd': 'act', 'state': state, 'img1': im1, 'img2': im2})['action']
+            act = np.r_[E_q[min(t, len(E_q) - 1)], E_g[min(t, len(E_g) - 1)]].astype(np.float32) if args.oracle else rpc({'cmd': 'act', 'state': state, 'img1': im1, 'img2': im2})['action']
             q_new, g = act[:6].astype(float), float(act[6])
             max_dq = max(max_dq, float(np.degrees(np.abs(q_new - state[:6]).max())))
             T_fl = sc.step_robot(q_new)
@@ -108,7 +120,7 @@ try:
         print('ep%02d  큐브 (%.3f, %.3f) yaw %2.0f°  파지 %s 들기 %s 놓기 %s  최소거리 %5.1f mm  maxΔq %.1f°  %d 스텝'
               % (ep, *pk, np.degrees(yaw), '✅' if grasped else '❌', '✅' if lifted else '❌', '✅' if placed else '❌', min_d * 1000, max_dq, t + 1), flush=True)
     n = len(results)
-    summ = dict(ckpt=args.ckpt, n=n, grasp_rate=sum(r['grasped'] for r in results) / n, lift_rate=sum(r['lifted'] for r in results) / n,
+    summ = dict(ckpt='ORACLE(expert)' if args.oracle else args.ckpt, n=n, grasp_rate=sum(r['grasped'] for r in results) / n, lift_rate=sum(r['lifted'] for r in results) / n,
                 place_rate=sum(r['placed'] for r in results) / n, median_min_dist_mm=float(np.median([r['min_tcp_cube_mm'] for r in results])),
                 table_z=args.table_z, ws_scale=args.ws_scale, dr=args.dr, seed=args.seed)
     json.dump(dict(summary=summ, episodes=results), open(f'{OUT}/results.json', 'w'), indent=1)
@@ -117,6 +129,7 @@ try:
 except Exception:
     traceback.print_exc()
 finally:
-    try: rpc({'cmd': 'quit'})
+    try:
+        if not args.oracle: rpc({'cmd': 'quit'})
     except Exception: pass
     app.close()
