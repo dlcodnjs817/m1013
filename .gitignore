@@ -6,3 +6,6 @@ sim_out/frames_*/
 # 외부 저장소 클론 (두산 공식, 443MB — 별도 관리)
 doosan-robot2/
 .~lock.*#
+
+# FK 캐시 (12MB, tx90/make_paper_figs.py 가 재생성)
+paper_figs/omx_fk_cache.npz
