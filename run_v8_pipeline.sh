@@ -14,12 +14,19 @@ F=$(python3 -c "import json;print(json.load(open('/home/kim/physical_ai_tools/do
 log "데이터셋 $DS: $N 에피소드, $F 프레임"
 [ "$N" -lt 100 ] && { log "에피소드가 너무 적음 — 중단"; exit 1; }
 
-log "ACT 학습 시작 → $TRAIN (100k 스텝, batch 8 — v6 와 동일 설정)"
-docker exec physical_ai_server bash -c "cd /root/ros2_ws/src/physical_ai_tools/lerobot/src && python3 -m lerobot.scripts.train \
-  --dataset.repo_id=dlcodnjs/$DS --policy.type=act --policy.device=cuda --policy.push_to_hub=false \
-  --batch_size=8 --steps=100000 --log_freq=200 --save_freq=10000 --output_dir=$TRAIN --job_name=m1013_act_isaac_v8 > $TRAIN.log 2>&1"
+if docker exec physical_ai_server test -f $TRAIN/checkpoints/last/pretrained_model/train_config.json; then
+  # 전원 차단 등으로 끊긴 학습 이어하기 (마지막 10k 체크포인트부터). 2026-09-11
+  log "ACT 학습 재개 → $TRAIN (마지막 체크포인트: $(docker exec physical_ai_server readlink $TRAIN/checkpoints/last))"
+  docker exec physical_ai_server bash -c "cd /root/ros2_ws/src/physical_ai_tools/lerobot/src && python3 -m lerobot.scripts.train \
+    --resume=true --config_path=$TRAIN/checkpoints/last/pretrained_model/train_config.json >> $TRAIN.log 2>&1"
+else
+  log "ACT 학습 시작 → $TRAIN (100k 스텝, batch 8 — v6 와 동일 설정)"
+  docker exec physical_ai_server bash -c "cd /root/ros2_ws/src/physical_ai_tools/lerobot/src && python3 -m lerobot.scripts.train \
+    --dataset.repo_id=dlcodnjs/$DS --policy.type=act --policy.device=cuda --policy.push_to_hub=false \
+    --batch_size=8 --steps=100000 --log_freq=200 --save_freq=10000 --output_dir=$TRAIN --job_name=m1013_act_isaac_v8 > $TRAIN.log 2>&1"
+fi
 docker exec physical_ai_server bash -c "grep -a 'step:100K\|Error\|Traceback' $TRAIN.log | tail -2"
-docker exec physical_ai_server test -d $TRAIN/checkpoints/last/pretrained_model || { log "학습 실패 — $TRAIN.log 확인"; exit 1; }
+docker exec physical_ai_server test -d $TRAIN/checkpoints/100000/pretrained_model || { log "학습이 100k 까지 못 감 — $TRAIN.log 확인"; exit 1; }
 log "학습 완료"
 
 log "닫힌 루프 평가 30 에피소드 (v6 분포 위치) + 30 에피소드 (1.5배 영역)"

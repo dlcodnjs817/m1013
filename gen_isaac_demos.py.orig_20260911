@@ -200,16 +200,22 @@ try:
             st[key] = dict(min=ch.min(0).reshape(3, 1, 1).tolist(), max=ch.max(0).reshape(3, 1, 1).tolist(), mean=ch.mean(0).reshape(3, 1, 1).tolist(), std=ch.std(0).reshape(3, 1, 1).tolist(), count=[len(X)])
         for key, arr in (('timestamp', np.arange(n) / FPS), ('frame_index', np.arange(n)), ('episode_index', np.full(n, ep)), ('index', np.arange(n)), ('task_index', np.zeros(n))):
             arr = np.asarray(arr, float); st[key] = dict(min=[arr.min()], max=[arr.max()], mean=[arr.mean()], std=[arr.std()], count=[n])
-        d_meta = dict(episode_index=ep, tasks=[TASK], length=n, pick=e['pick'].tolist(), place=e['place'].tolist(), cube_yaw_deg=float(np.degrees(e['yaw'])), t_close=tc, t_open=to)
-        ep_stats.append(dict(episode_index=ep, stats=st)); ep_meta.append(d_meta)
-        # 에피소드마다 meta 를 바로 붙여 둔다 — 도중에 전원이 나가도 끝난 에피소드는 살아남는다 (2026-09-11)
-        with open(f'{OUT}/meta/episodes.jsonl', 'a') as f: f.write(json.dumps(d_meta) + '\n')
-        with open(f'{OUT}/meta/episodes_stats.jsonl', 'a') as f: f.write(json.dumps(dict(episode_index=ep, stats=st)) + '\n')
+        ep_stats.append(dict(episode_index=ep, stats=st)); ep_meta.append(dict(episode_index=ep, tasks=[TASK], length=n, pick=e['pick'].tolist(), place=e['place'].tolist(), cube_yaw_deg=float(np.degrees(e['yaw'])), t_close=tc, t_open=to))
         print('ep%03d  %d 프레임  큐브 (%.3f, %.3f) yaw %3.0f° → (%.3f, %.3f)   %.1f s' % (ep, n, *e['pick'], np.degrees(e['yaw']), *e['place'], time.time() - t0), flush=True)
 
-    # ---- meta (tasks/info 는 episodes.jsonl 전체로 재계산 — --start 로 이어 만든 경우도 포함) ----
-    import rebuild_v8_meta
-    rebuild_v8_meta.write_info(OUT, dict(table_z=args.table_z, ws_scale=args.ws_scale, dr=not args.no_dr, wristcam=dict(pos=WP.CAM_POS.tolist(), fwd=WP.CAM_FWD.tolist(), roll=WP.ROLL, hfov=WP.HFOV), tcp=TCP, seed=args.seed))
+    # ---- meta ----
+    with open(f'{OUT}/meta/episodes.jsonl', 'a') as f:
+        for d in ep_meta: f.write(json.dumps(d) + '\n')
+    with open(f'{OUT}/meta/episodes_stats.jsonl', 'a') as f:
+        for d in ep_stats: f.write(json.dumps(d) + '\n')
+    with open(f'{OUT}/meta/tasks.jsonl', 'w') as f: f.write(json.dumps(dict(task=TASK, task_index=0)) + '\n')
+    eps = [json.loads(l) for l in open(f'{OUT}/meta/episodes.jsonl')]
+    info = json.load(open(f'{HF}/m1013_act_pick_and_place_v6_joint/meta/info.json'))
+    info.update(robot_type='m1013_isaac', total_episodes=len(eps), total_frames=int(sum(e['length'] for e in eps)), total_videos=2 * len(eps), total_tasks=1,
+                splits={'train': f'0:{len(eps)}'})
+    for key in ('observation.state', 'action'): info['features'][key]['names'] = ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6', 'gripper']
+    info['isaac_gen'] = dict(table_z=args.table_z, ws_scale=args.ws_scale, dr=not args.no_dr, wristcam=dict(pos=WP.CAM_POS.tolist(), fwd=WP.CAM_FWD.tolist(), roll=WP.ROLL, hfov=WP.HFOV), tcp=TCP, seed=args.seed)
+    json.dump(info, open(f'{OUT}/meta/info.json', 'w'), indent=1)
     print('\n완료 %d 에피소드 · 총 %d 프레임 · %.1f 분 → %s' % (len(ep_meta), sum(d['length'] for d in ep_meta), (time.time() - t_all) / 60, OUT), flush=True)
 except Exception:
     traceback.print_exc()

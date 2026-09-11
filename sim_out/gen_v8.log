@@ -1,0 +1,769 @@
+[Info] [carb] Logging to file: /home/kim/isaacsim/kit/logs/Kit/Isaac-Sim Python/5.1/kit_20260911_145205.log
+[0.028s] [ext: omni.kit.async_engine-0.0.3] startup
+[0.204s] [ext: omni.metrics.core-0.0.3] startup
+[0.204s] [ext: omni.client.lib-1.1.0] startup
+[0.212s] [ext: omni.blobkey-1.1.2] startup
+[0.212s] [ext: omni.stats-1.0.1] startup
+[0.213s] [ext: omni.datastore-0.0.0] startup
+[0.216s] [ext: omni.client-1.3.0] startup
+[0.219s] [ext: omni.ujitso.default-1.0.0] startup
+[0.220s] [ext: omni.hsscclient-1.1.2] startup
+[0.221s] [ext: omni.gpu_foundation.shadercache.vulkan-1.0.0] startup
+[0.223s] [ext: omni.assets.plugins-0.0.0] startup
+[0.223s] [ext: omni.gpu_foundation-0.0.0] startup
+[0.227s] [ext: carb.windowing.plugins-1.0.0] startup
+[0.232s] [ext: omni.kit.renderer.init-0.0.0] startup
+2026-09-11T05:52:06Z [444ms] [Warning] [gpu.foundation.plugin] Skipping unsupported non-NVIDIA GPU: Intel(R) Graphics (RPL-S)
+2026-09-11T05:52:06Z [444ms] [Warning] [gpu.foundation.plugin] Skipping unsupported non-NVIDIA GPU: Intel(R) Graphics (RPL-S)
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 580.178.04    | Graphics API: Vulkan
+|=============================================================================================|
+| GPU | Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GeForce RTX 5070 Ti       | Yes: 0 |     | 16303   MB | 10de      | 0          |
+|     |                                  |        |     |            | 2c05      | f24f8016.. |
+|     |                                  |        |     |            | 1         |            |
+|---------------------------------------------------------------------------------------------|
+| 1   | Intel(R) Graphics (RPL-S)        |        |     | 23846   MB | 8086      | 0          |
+|     |                                  |        |     |            | a780      | 868080a7.. |
+|     |                                  |        |     |            | 0         |            |
+|=============================================================================================|
+| OS: 22.04.5 LTS (Jammy Jellyfish) ubuntu, Version: 22.04.5, Kernel: 6.8.0-138-generic
+| XServer Vendor: The X.Org Foundation, XServer Version: 12101004 (1.21.1.4)
+| Processor: Intel(R) Core(TM) i7-14700K
+| Bare Metal Cores: 20 | Bare Metal Logical Cores: 40
+| Available Cores:  28 
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 31795 | Free Memory: 25246
+| Total Page/Swap (MB): 0 | Free Page/Swap: 0
+|---------------------------------------------------------------------------------------------|
+2026-09-11T05:52:06Z [684ms] [Warning] [gpu.foundation.plugin] CPU performance profile is set to powersave. This profile sets the CPU to the lowest frequency reducing performance.
+2026-09-11T05:52:06Z [692ms] [Warning] [gpu.foundation.plugin] IOMMU is enabled.
+2026-09-11T05:52:06Z [692ms] [Warning] [gpu.foundation.plugin] Detected IOMMU is enabled. Running CUDA peer-to-peer bandwidth and latency validation.
+Unidirectional P2P=Enabled Bandwidth (P2P Writes) Matrix (GB/s)
+   D\D     0 
+     0 764.06 
+P2P=Enabled Latency (P2P Writes) Matrix (us)
+   GPU     0 
+     0   2.08 
+
+   CPU     0 
+     0   2.51 
+[0.813s] [ext: omni.kit.pipapi-0.0.0] startup
+[0.814s] [ext: omni.kit.pip_archive-0.0.0] startup
+[0.814s] [ext: omni.pip.compute-1.6.3] startup
+[0.814s] [ext: omni.materialx.libs-1.0.7] startup
+[0.819s] [ext: omni.pip.cloud-1.4.3] startup
+[0.821s] [ext: omni.isaac.core_archive-3.0.0] startup
+[0.821s] [ext: omni.usd.config-1.0.6] startup
+[0.823s] [ext: omni.gpucompute.plugins-0.0.0] startup
+[0.824s] [ext: omni.usd.libs-1.0.1] startup
+[0.876s] [ext: omni.kit.telemetry-0.5.2] startup
+[0.891s] [ext: omni.mdl-56.0.3] startup
+[0.907s] [ext: omni.iray.libs-0.0.0] startup
+[0.910s] [ext: omni.mdl.neuraylib-0.2.12] startup
+[0.912s] [ext: omni.kit.usd.mdl-1.1.5] startup
+[0.974s] [ext: omni.isaac.ml_archive-3.0.4] startup
+[0.974s] [ext: omni.kit.loop-isaac-1.3.7] startup
+[0.975s] [ext: omni.kit.test-2.0.1] startup
+[1.005s] [ext: omni.appwindow-1.1.10] startup
+[1.007s] [ext: omni.kit.renderer.core-1.1.0] startup
+[1.603s] [ext: omni.kit.renderer.capture-0.0.0] startup
+[1.605s] [ext: omni.kit.renderer.imgui-2.0.5] startup
+[1.865s] [ext: omni.ui-2.27.1] startup
+[1.871s] [ext: omni.kit.mainwindow-1.0.3] startup
+[1.872s] [ext: carb.audio-0.1.0] startup
+[1.874s] [ext: omni.uiaudio-1.0.0] startup
+[1.874s] [ext: omni.kit.uiapp-0.0.0] startup
+[1.874s] [ext: omni.usd.schema.metrics.assembler-107.3.1] startup
+[1.876s] [ext: omni.usd.schema.audio-0.0.0] startup
+[1.877s] [ext: omni.anim.graph.schema-107.3.3] startup
+[1.884s] [ext: omni.usd_resolver-1.0.0] startup
+[1.886s] [ext: omni.usd.core-1.5.3] startup
+[1.887s] [ext: omni.usd.schema.render_settings.rtx-0.0.0] startup
+[1.901s] [ext: omni.usd.schema.semantics-0.0.0] startup
+[1.902s] [ext: isaacsim.robot.schema-3.6.0] startup
+[1.907s] [ext: omni.usd.schema.geospatial-0.0.0] startup
+[1.908s] [ext: omni.usd.schema.anim-0.0.0] startup
+[1.918s] [ext: omni.kit.window.popup_dialog-2.0.24] startup
+[1.920s] [ext: usdrt.scenegraph-7.6.1] startup
+[1.943s] [ext: omni.timeline-1.0.14] startup
+[1.944s] [ext: omni.resourcemonitor-107.0.1] startup
+[1.945s] [ext: omni.activity.core-1.0.3] startup
+[1.946s] [ext: omni.kit.widget.nucleus_connector-2.0.1] startup
+[1.947s] [ext: omni.hydra.usdrt_delegate-7.5.1] startup
+[1.951s] [ext: omni.kit.actions.core-1.0.0] startup
+[1.952s] [ext: omni.graph.exec-0.9.6] startup
+[1.952s] [ext: omni.kit.commands-1.4.10] startup
+[1.954s] [ext: omni.kit.usd_undo-0.1.8] startup
+[1.955s] [ext: omni.kit.exec.core-0.13.4] startup
+[1.956s] [ext: omni.kit.audiodeviceenum-1.0.2] startup
+[1.957s] [ext: omni.hydra.scene_delegate-0.3.4] startup
+[1.959s] [ext: omni.usd-1.13.10] startup
+[1.973s] [ext: omni.kit.asset_converter-5.0.17] startup
+[1.980s] [ext: omni.usd.schema.flow-107.1.1] startup
+[1.980s] [ext: omni.usd.schema.omnigraph-1.0.0] startup
+[1.984s] [ext: omni.usd.schema.omni_sensors-0.0.0] startup
+[1.984s] [ext: omni.anim.navigation.schema-107.3.3] startup
+[1.986s] [ext: omni.inspect-1.0.2] startup
+[1.987s] [ext: omni.kit.notification_manager-1.0.10] startup
+[1.988s] [ext: omni.graph.core-2.184.5] startup
+[1.989s] [ext: isaacsim.core.deprecation_manager-0.2.7] startup
+[1.990s] [ext: omni.usd.schema.physx-107.3.26] startup
+[2.011s] [ext: omni.usd.schema.isaac-3.0.5] startup
+[2.011s] [ext: omni.usd.schema.omniscripting-1.0.0] startup
+[2.013s] [ext: omni.usd.schema.omni_lens_distortion-0.0.0] startup
+[2.014s] [ext: omni.kvdb-107.3.26] startup
+[2.014s] [ext: omni.usdphysics-107.3.26] startup
+[2.016s] [ext: omni.physx.foundation-107.3.26] startup
+[2.017s] [ext: omni.localcache-107.3.26] startup
+[2.017s] [ext: omni.convexdecomposition-107.3.26] startup
+[2.019s] [ext: omni.physx.cooking-107.3.26] startup
+[2.021s] [ext: omni.physx-107.3.26] startup
+[2.026s] [ext: omni.physics-107.3.26] startup
+[2.028s] [ext: omni.kit.usd.layers-2.2.11] startup
+[2.033s] [ext: omni.physics.physx-107.3.26] startup
+2026-09-11T05:52:07Z [2,024ms] [Warning] [carb] Acquiring non optional plugin interface which is not listed as dependency: [omni::physx::IPhysxBenchmarks v1.0] (plugin: <default plugin>), by client: omni.physics.physx.plugin. Add it to CARB_PLUGIN_IMPL_DEPS() macro of a client.
+[2.034s] [ext: omni.physics.stageupdate-107.3.26] startup
+[2.035s] [ext: omni.kit.numpy.common-0.1.3] startup
+[2.036s] [ext: isaacsim.core.version-2.0.6] startup
+[2.036s] [ext: omni.isaac.dynamic_control-2.0.7] startup
+2026-09-11T05:52:07Z [2,029ms] [Warning] [omni.isaac.dynamic_control] omni.isaac.dynamic_control is deprecated as of Isaac Sim 4.5. No action is needed from end-users.
+[2.039s] [ext: isaacsim.storage.native-1.5.1] startup
+[2.040s] [ext: omni.kit.menu.core-1.1.2] startup
+[2.040s] [ext: omni.kit.helper.file_utils-0.1.9] startup
+[2.041s] [ext: omni.usd.metrics.assembler-107.3.1] startup
+[2.045s] [ext: omni.kit.widget.context_menu-1.2.5] startup
+[2.045s] [ext: omni.warp.core-1.8.2] startup
+[2.180s] [ext: omni.usd.metrics.assembler.physics-107.3.26] startup
+[2.182s] [ext: omni.physics.tensors-107.3.26] startup
+[2.185s] [ext: omni.kit.context_menu-1.8.6] startup
+[2.186s] [ext: omni.kit.clipboard-1.0.5] startup
+[2.186s] [ext: isaacsim.core.utils-3.5.1] startup
+[2.188s] [ext: omni.kit.widget.filebrowser-2.12.3] startup
+[2.191s] [ext: omni.kit.widget.options_menu-1.1.6] startup
+[2.193s] [ext: omni.kit.widget.path_field-2.0.11] startup
+[2.194s] [ext: omni.index.libs-380600.8087.0] startup
+[2.194s] [ext: omni.ui.scene-1.11.5] startup
+[2.196s] [ext: omni.kit.widget.options_button-1.0.3] startup
+[2.197s] [ext: omni.kit.widget.browser_bar-2.0.10] startup
+[2.197s] [ext: omni.index-1.0.1] startup
+[2.198s] [ext: omni.hydra.rtx.shadercache.vulkan-1.0.0] startup
+[2.198s] [ext: omni.kit.window.filepicker-2.13.4] startup
+[2.206s] [ext: omni.volume-0.5.2] startup
+[2.208s] [ext: omni.ujitso.client-0.0.0] startup
+[2.208s] [ext: omni.graph.tools-1.79.2] startup
+[2.222s] [ext: omni.graph.image.core-0.6.1] startup
+[2.223s] [ext: omni.hydra.rtx-1.0.0] startup
+2026-09-11T05:52:08Z [2,223ms] [Warning] [omni.log] Source: omni.hydra was already registered.
+[2.242s] [ext: omni.kit.window.file_importer-1.1.18] startup
+[2.244s] [ext: omni.kit.menu.utils-2.0.5] startup
+[2.248s] [ext: omni.graph.image.nodes-1.3.1] startup
+[2.249s] [ext: omni.kit.widget.searchable_combobox-1.0.6] startup
+[2.250s] [ext: omni.kit.hydra_texture-1.4.6] startup
+[2.252s] [ext: omni.kit.material.library-2.0.7] startup
+[2.255s] [ext: omni.hydra.engine.stats-1.0.3] startup
+[2.256s] [ext: omni.kit.viewport.scene_camera_model-1.0.6] startup
+[2.259s] [ext: omni.kit.widget.settings-1.2.6] startup
+[2.260s] [ext: omni.kit.viewport.legacy_gizmos-1.0.19] startup
+[2.261s] [ext: omni.kit.widget.viewport-107.1.3] startup
+[2.264s] [ext: omni.kit.viewport.registry-104.0.6] startup
+[2.264s] [ext: omni.kit.raycast.query-1.1.0] startup
+[2.267s] [ext: omni.physx.tensors-107.3.26] startup
+[2.334s] [ext: omni.kit.window.drop_support-1.0.5] startup
+[2.334s] [ext: omni.kit.primitive.mesh-1.0.17] startup
+[2.336s] [ext: omni.kit.viewport.window-107.2.0] startup
+[2.348s] [ext: omni.kit.window.preferences-1.8.0] startup
+[2.351s] [ext: isaacsim.core.simulation_manager-1.4.4] startup
+[3.223s] [ext: omni.graph.action_core-1.1.7] startup
+[3.224s] [ext: omni.graph-1.141.2] startup
+[3.252s] [ext: omni.kit.viewport.utility-1.1.2] startup
+[3.253s] [ext: omni.kit.viewport.menubar.core-107.2.1] startup
+[3.262s] [ext: isaacsim.core.prims-0.6.1] startup
+[3.280s] [ext: omni.graph.action_nodes-1.50.4] startup
+[3.283s] [ext: omni.kit.stage_template.core-1.1.22] startup
+[3.284s] [ext: omni.syntheticdata-0.6.13] startup
+[3.303s] [ext: omni.graph.nodes-1.170.10] startup
+[3.311s] [ext: omni.graph.action-1.130.0] startup
+[3.313s] [ext: omni.kit.stage_templates-2.0.0] startup
+[3.320s] [ext: omni.kit.widget.filter-1.1.4] startup
+[3.322s] [ext: omni.kit.widget.graph-2.0.0] startup
+[3.332s] [ext: omni.kit.property.adapter.core-1.0.2] startup
+[3.334s] [ext: omni.kit.window.file_exporter-1.0.33] startup
+[3.336s] [ext: omni.kit.widget.searchfield-1.1.8] startup
+[3.338s] [ext: omni.kit.hotkeys.core-1.3.10] startup
+[3.339s] [ext: omni.kit.graph.delegate.default-1.2.3] startup
+[3.340s] [ext: omni.kit.property.adapter.fabric-1.0.3] startup
+[3.341s] [ext: omni.kit.widget.stage-3.1.4] startup
+[3.356s] [ext: omni.kit.property.adapter.usd-1.0.2] startup
+[3.361s] [ext: omni.kit.graph.editor.core-1.5.3] startup
+[3.366s] [ext: omni.kit.widget.material_preview-1.0.16] startup
+[3.368s] [ext: omni.kit.widget.highlight_label-1.0.3] startup
+[3.368s] [ext: omni.kit.window.file-2.0.5] startup
+[3.371s] [ext: omni.kit.window.content_browser_registry-0.0.6] startup
+[3.371s] [ext: omni.kit.window.property-1.12.1] startup
+[3.374s] [ext: omni.kit.window.content_browser-3.1.3] startup
+[3.381s] [ext: omni.kit.graph.usd.commands-1.3.1] startup
+[3.382s] [ext: omni.kit.property.usd-4.5.12] startup
+[3.389s] [ext: omni.graph.ui_nodes-1.50.5] startup
+[3.391s] [ext: omni.videoencoding-0.1.2] startup
+[3.393s] [ext: omni.kit.window.material_graph-1.9.1] startup
+[3.402s] [ext: omni.warp-1.8.2] startup
+[3.405s] [ext: isaacsim.core.api-4.8.0] startup
+[3.415s] [ext: omni.graph.scriptnode-1.50.0] startup
+[3.417s] [ext: isaacsim.test.docstring-1.1.0] startup
+[3.422s] [ext: isaacsim.core.experimental.utils-0.3.0] startup
+[3.431s] [ext: omni.replicator.core-1.12.27] startup
+2026-09-11T05:52:09Z [3,450ms] [Warning] [pxr.Semantics] pxr.Semantics is deprecated - please use Semantics instead
+2026-09-11T05:52:09Z [3,547ms] [Warning] [omni.graph.core.plugin] Found duplicate of category 'Replicator' - was 'Annotators', adding 'Fabric Reader'
+2026-09-11T05:52:09Z [3,547ms] [Warning] [omni.graph.core.plugin] Category 'Replicator' not accepted on node type 'omni.replicator.core.FabricReader' in extension 'omni.replicator.core'
+2026-09-11T05:52:09Z [3,548ms] [Warning] [omni.replicator.core.scripts.extension] No material configuration file, adding configuration to material settings directly.
+[3.560s] [ext: isaacsim.core.experimental.prims-0.8.1] startup
+[3.591s] [ext: omni.kit.window.extensions-1.4.27] startup
+[3.601s] [ext: isaacsim.core.experimental.objects-0.4.0] startup
+[3.604s] [ext: omni.ui_query-1.1.8] startup
+[3.606s] [ext: omni.kit.manipulator.viewport-107.0.1] startup
+[3.608s] [ext: isaacsim.robot.surface_gripper-3.3.1] startup
+[3.610s] [ext: omni.kit.ui_test-1.3.7] startup
+[3.613s] [ext: omni.graph.visualization.nodes-2.1.3] startup
+[3.622s] [ext: isaacsim.robot_motion.lula-4.0.8] startup
+[3.628s] [ext: isaacsim.core.nodes-3.4.3] startup
+[3.634s] [ext: isaacsim.gui.components-1.2.1] startup
+[3.641s] [ext: isaacsim.robot_motion.motion_generation-8.0.26] startup
+[3.651s] [ext: isaacsim.robot.manipulators-3.3.6] startup
+[3.667s] [ext: isaacsim.core.experimental.materials-0.4.0] startup
+[3.755s] [ext: isaacsim.robot.manipulators.examples-1.1.2] startup
+[3.776s] [ext: isaacsim.cortex.framework-1.0.12] startup
+[3.778s] [ext: isaacsim.cortex.behaviors-2.0.14] startup
+[3.781s] [ext: omni.isaac.cortex.sample_behaviors-2.0.5] startup
+2026-09-11T05:52:09Z [3,790ms] [Warning] [omni.isaac.cortex] omni.isaac.cortex has been deprecated in favor of isaacsim.cortex.framework. Please update your code accordingly.
+2026-09-11T05:52:09Z [3,798ms] [Warning] [omni.isaac.cortex.sample_behaviors] omni.isaac.cortex.sample_behaviors has been deprecated in favor of isaacsim.cortex.behaviors. Please update your code accordingly.
+[3.809s] [ext: omni.kit.widget.zoombar-1.0.6] startup
+[3.828s] [ext: isaacsim.gui.content_browser-0.1.11] startup
+[3.912s] [ext: omni.kit.browser.core-2.3.13] startup
+[4.016s] [ext: omni.kit.widget.stage_icons-1.0.8] startup
+[4.022s] [ext: omni.kit.widget.prompt-1.0.7] startup
+[4.024s] [ext: omni.kit.usd.collect-2.4.5] startup
+[4.029s] [ext: omni.kit.browser.folder.core-1.10.9] startup
+[4.041s] [ext: omni.kit.window.stage-2.6.1] startup
+[4.048s] [ext: omni.kit.usdz_export-1.0.9] startup
+[4.051s] [ext: omni.kit.tool.collect-2.2.18] startup
+[4.054s] [ext: omni.kit.menu.stage-1.2.7] startup
+[4.057s] [ext: omni.kit.tool.asset_importer-4.3.2] startup
+[4.065s] [ext: isaacsim.robot.wheeled_robots-4.0.24] startup
+[4.080s] [ext: isaacsim.examples.browser-0.2.1] startup
+[4.090s] [ext: isaacsim.asset.importer.urdf-2.4.30] startup
+[4.161s] [ext: omni.isaac.wheeled_robots-3.0.7] startup
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots.controllers] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots.controllers.ackermann_controller] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots.controllers.differential_controller] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots.controllers.holonomic_controller] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots.controllers.quintic_path_planner] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots.controllers.stanley_control] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots.controllers.wheel_base_pose_controller] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,153ms] [Warning] [omni.isaac.wheeled_robots.impl] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,154ms] [Warning] [omni.isaac.wheeled_robots.robots] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,155ms] [Warning] [omni.isaac.wheeled_robots.robots.holonomic_robot_usd_setup] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,155ms] [Warning] [omni.isaac.wheeled_robots.robots.wheeled_robot] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+[4.167s] [ext: isaacsim.simulation_app-2.12.2] startup
+[4.168s] [ext: omni.isaac.franka-1.0.7] startup
+2026-09-11T05:52:10Z [4,159ms] [Warning] [omni.isaac.franka] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.franka. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,160ms] [Warning] [omni.isaac.franka.franka] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.franka. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,176ms] [Warning] [omni.isaac.franka.kinematics_solver] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.franka. Please update your code accordingly.
+[4.186s] [ext: omni.isaac.kit-2.0.6] startup
+2026-09-11T05:52:10Z [4,177ms] [Warning] [omni.isaac.kit] omni.isaac.kit has been deprecated in favor of isaacsim.simulation_app. Please update your code accordingly.
+[4.188s] [ext: omni.kit.selection-0.1.6] startup
+[4.189s] [ext: omni.isaac.lula-4.0.6] startup
+2026-09-11T05:52:10Z [4,179ms] [Warning] [omni.isaac.lula] omni.isaac.lula has been deprecated in favor of isaacsim.robot_motion.lula. Please update your code accordingly.
+[4.189s] [ext: isaacsim.robot_motion.lula_test_widget-1.0.12] startup
+[4.191s] [ext: isaacsim.asset.browser-1.3.23] startup
+[4.251s] [ext: omni.kit.viewport.actions-107.0.2] startup
+[4.254s] [ext: isaacsim.gui.menu-2.4.4] startup
+[4.258s] [ext: omni.isaac.manipulators-3.0.7] startup
+2026-09-11T05:52:10Z [4,249ms] [Warning] [omni.isaac.manipulators] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,249ms] [Warning] [omni.isaac.manipulators.controllers] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,250ms] [Warning] [omni.isaac.manipulators.controllers.pick_place_controller] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,251ms] [Warning] [omni.isaac.manipulators.controllers.stacking_controller] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,251ms] [Warning] [omni.isaac.manipulators.grippers] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,251ms] [Warning] [omni.isaac.manipulators.grippers.gripper] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,251ms] [Warning] [omni.isaac.manipulators.grippers.parallel_gripper] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,251ms] [Warning] [omni.isaac.manipulators.grippers.surface_gripper] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,251ms] [Warning] [omni.isaac.manipulators.manipulators] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,251ms] [Warning] [omni.isaac.manipulators.manipulators.single_manipulator] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+[4.262s] [ext: omni.isaac.lula_test_widget-1.0.6] startup
+2026-09-11T05:52:10Z [4,253ms] [Warning] [omni.isaac.lula_test_widget] omni.isaac.lula_test_widget has been deprecated in favor of isaacsim.robot_motion.lula_test_widget. Please update your code accordingly.
+[4.263s] [ext: omni.isaac.asset_browser-1.0.6] startup
+2026-09-11T05:52:10Z [4,254ms] [Warning] [omni.isaac.asset_browser] omni.isaac.asset_browser has been deprecated in favor of isaacsim.asset.browser. Please update your code accordingly.
+[4.265s] [ext: omni.kit.viewport.menubar.display-107.0.3] startup
+[4.269s] [ext: omni.isaac.menu-1.0.6] startup
+2026-09-11T05:52:10Z [4,260ms] [Warning] [omni.isaac.menu] omni.isaac.menu has been deprecated in favor of isaacsim.gui.menu. Please update your code accordingly.
+[4.270s] [ext: omni.isaac.motion_generation-8.0.7] startup
+2026-09-11T05:52:10Z [4,261ms] [Warning] [omni.isaac.motion_generation] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,261ms] [Warning] [omni.isaac.motion_generation.articulation_kinematics_solver] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,261ms] [Warning] [omni.isaac.motion_generation.articulation_motion_policy] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,262ms] [Warning] [omni.isaac.motion_generation.articulation_trajectory] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,262ms] [Warning] [omni.isaac.motion_generation.kinematics_interface] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,262ms] [Warning] [omni.isaac.motion_generation.lula] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,262ms] [Warning] [omni.isaac.motion_generation.lula.kinematics] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,262ms] [Warning] [omni.isaac.motion_generation.lula.motion_policies] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,263ms] [Warning] [omni.isaac.motion_generation.lula.path_planners] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,263ms] [Warning] [omni.isaac.motion_generation.lula.trajectory_generator] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,263ms] [Warning] [omni.isaac.motion_generation.motion_policy_controller] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,263ms] [Warning] [omni.isaac.motion_generation.motion_policy_interface] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,263ms] [Warning] [omni.isaac.motion_generation.path_planner_visualizer] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,263ms] [Warning] [omni.isaac.motion_generation.path_planning_interface] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,263ms] [Warning] [omni.isaac.motion_generation.trajectory] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,263ms] [Warning] [omni.isaac.motion_generation.world_interface] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+[4.273s] [ext: omni.isaac.assets_check-0.3.13] startup
+2026-09-11T05:52:10Z [4,265ms] [Warning] [omni.isaac.assets_check] omni.isaac.assets_check has been deprecated in favor of isaacsim.asset.browser. Please update your code accordingly.
+[4.275s] [ext: isaacsim.gui.sensors.icon-2.0.3] startup
+[4.284s] [ext: isaacsim.asset.importer.mjcf-2.5.13] startup
+[4.287s] [ext: omni.sensors.nv.common-3.0.0] startup
+[4.293s] [ext: isaacsim.sensors.physics-0.4.3] startup
+[4.297s] [ext: omni.sensors.net-1.0.0] startup
+[4.299s] [ext: omni.isaac.nucleus-1.0.6] startup
+2026-09-11T05:52:10Z [4,290ms] [Warning] [omni.isaac.nucleus] omni.isaac.nucleus has been deprecated in favor of isaacsim.storage.native. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,290ms] [Warning] [omni.isaac.nucleus.nucleus] omni.isaac.nucleus.nucleus has been deprecated in favor of isaacsim.storage.native. Please update your code accordingly.
+[4.300s] [ext: omni.sensors.nv.materials-2.0.0] startup
+[4.303s] [ext: isaacsim.robot.policy.examples-4.1.11] startup
+[4.305s] [ext: omni.sensors.nv.wpm-3.0.0] startup
+[4.306s] [ext: omni.sensors.nv.lidar-3.0.0] startup
+[4.312s] [ext: isaacsim.util.debug_draw-3.1.0] startup
+[4.314s] [ext: omni.sensors.nv.radar-3.0.0] startup
+[4.316s] [ext: omni.sensors.nv.ids-2.0.0] startup
+[4.317s] [ext: isaacsim.core.cloner-1.4.10] startup
+[4.319s] [ext: isaacsim.sensors.physx-2.3.2] startup
+[4.322s] [ext: isaacsim.sensors.rtx-15.8.4] startup
+[4.328s] [ext: isaacsim.sensors.camera-1.3.6] startup
+[4.333s] [ext: omni.isaac.quadruped-3.0.7] startup
+2026-09-11T05:52:10Z [4,326ms] [Warning] [omni.isaac.quadruped] omni.isaac.quadruped has been deprecated in favor of isaacsim.robot.policy.examples. Please update your code accordingly.
+[4.336s] [ext: omni.isaac.cloner-1.0.7] startup
+2026-09-11T05:52:10Z [4,329ms] [Warning] [omni.isaac.cloner] omni.isaac.cloner has been deprecated in favor of isaacsim.core.cloner. Please update your code accordingly.
+[4.339s] [ext: omni.isaac.range_sensor-4.0.6] startup
+2026-09-11T05:52:10Z [4,333ms] [Warning] [omni.isaac.range_sensor] omni.isaac.range_sensor has been deprecated in favor of isaacsim.sensors.physx. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,334ms] [Warning] [omni.isaac.range_sensor.commands] omni.isaac.range_sensor.commands has been deprecated in favor of isaacsim.sensors.physx.commands. Please update your code accordingly.
+[4.345s] [ext: omni.isaac.sensor-13.0.7] startup
+2026-09-11T05:52:10Z [4,336ms] [Warning] [omni.isaac.sensor] omni.isaac.sensor has been deprecated in favor of isaacsim.sensors.camera, isaacsim.sensors.physics, isaacsim.sensors.physx, and isaacsim.sensors.rtx. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,336ms] [Warning] [omni.isaac.sensor.camera] omni.isaac.sensor.camera has been deprecated in favor of isaacsim.sensors.camera.camera. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,337ms] [Warning] [omni.isaac.sensor.camera_view] omni.isaac.sensor.camera_view has been deprecated in favor of isaacsim.sensors.camera.camera_view. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,337ms] [Warning] [omni.isaac.sensor.commands] omni.isaac.sensor.commands has been deprecated in favor of isaacsim.sensors.physics.commands, isaacsim.sensors.physx.commands, and isaacsim.sensors.rtx.commands. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,337ms] [Warning] [omni.isaac.sensor.contact_sensor] omni.isaac.sensor.contact_sensor has been deprecated in favor of isaacsim.sensors.physics.contact_sensor. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,337ms] [Warning] [omni.isaac.sensor.imu_sensor] omni.isaac.sensor.imu_sensor has been deprecated in favor of isaacsim.sensors.physics.imu_sensor. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,337ms] [Warning] [omni.isaac.sensor.lidar_rtx] omni.isaac.sensor.lidar_rtx has been deprecated in favor of isaacsim.sensors.rtx.lidar_rtx. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,337ms] [Warning] [omni.isaac.sensor.rotating_lidar_physX] omni.isaac.sensor.imu_sensor has been deprecated in favor of isaacsim.sensors.physix.rotating_lidar_physX. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,338ms] [Warning] [omni.isaac.sensor.scripts.samples.contact_sensor] omni.isaac.sensor.scripts.samples.contact_sensor has been deprecated in favor of isaacsim.sensors.physics.scripts.samples.contact_sensor. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,338ms] [Warning] [omni.isaac.sensor.scripts.samples.imu_sensor] omni.isaac.sensor.scripts.samples.imu_sensor has been deprecated in favor of isaacsim.sensors.physics.scripts.samples.imu_sensor. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,338ms] [Warning] [omni.isaac.sensor.scripts.samples.lightbeam_sensor] omni.isaac.sensor.scripts.samples.lightbeam_sensor has been deprecated in favor of isaacsim.sensors.physx.scripts.samples.lightbeam_sensor. Please update your code accordingly.
+[4.348s] [ext: omni.kit.menu.create-2.0.1] startup
+[4.351s] [ext: omni.kit.widget.toolbar-2.0.1] startup
+[4.363s] [ext: omni.kit.manipulator.transform-107.0.0] startup
+[4.366s] [ext: omni.isaac.core-4.0.7] startup
+2026-09-11T05:52:10Z [4,356ms] [Warning] [omni.isaac.core.physics_context.physics_context] omni.isaac.core.physics_context.physics_context has been deprecated in favor of isaacsim.core.api.physics_context.physics_context. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,356ms] [Warning] [omni.isaac.core.simulation_context.simulation_context] omni.isaac.core.simulation_context.simulation_context has been deprecated in favor of isaacsim.core.api.simulation_context.simulation_context. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,356ms] [Warning] [omni.isaac.core.world.world] omni.isaac.core.world.world has been deprecated in favor of isaacsim.core.api.world.world. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,356ms] [Warning] [omni.isaac.core] omni.isaac.core has been deprecated in favor of isaacsim.core.api. Please update your code accordingly.
+[4.367s] [ext: omni.kit.scripting-107.3.2] startup
+[4.371s] [ext: omni.kit.manipulator.tool.snap-1.5.13] startup
+[4.374s] [ext: omni.kit.manipulator.selector-1.1.3] startup
+[4.375s] [ext: isaacsim.app.about-2.0.11] startup
+[4.379s] [ext: isaacsim.replicator.behavior-1.1.16] startup
+[4.379s] [ext: omni.kit.viewport.manipulator.transform-107.0.4] startup
+[4.381s] [ext: omni.isaac.window.about-2.0.7] startup
+2026-09-11T05:52:10Z [4,372ms] [Warning] [omni.isaac.window.about] omni.isaac.window.about has been deprecated in favor of isaacsim.app.about. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,372ms] [Warning] [omni.isaac.window.about.about] omni.isaac.window.about.about has been deprecated in favor of isaacsim.app.about.about. Please update your code accordingly.
+[4.382s] [ext: omni.fabric.commands-1.1.6] startup
+[4.385s] [ext: omni.kit.manipulator.prim.core-107.0.8] startup
+[4.389s] [ext: omni.kit.property.audio-1.0.16] startup
+[4.390s] [ext: omni.kit.property.camera-1.0.10] startup
+[4.391s] [ext: omni.kit.property.geometry-2.0.4] startup
+[4.394s] [ext: omni.hydra.scene_api-0.1.2] startup
+[4.397s] [ext: omni.kit.property.light-1.0.12] startup
+[4.406s] [ext: omni.kit.manipulator.prim.fabric-107.0.4] startup
+[4.408s] [ext: omni.kit.manipulator.prim.usd-107.0.3] startup
+[4.409s] [ext: omni.kit.property.material-1.11.9] startup
+[4.412s] [ext: omni.kit.property.render-1.2.1] startup
+[4.413s] [ext: omni.kit.property.transform-1.5.13] startup
+[4.416s] [ext: isaacsim.gui.property-1.1.3] startup
+[4.418s] [ext: omni.kit.manipulator.camera-106.0.4] startup
+[4.420s] [ext: omni.kit.manipulator.prim-107.0.0] startup
+[4.421s] [ext: omni.isaac.surface_gripper-2.0.6] startup
+2026-09-11T05:52:10Z [4,411ms] [Warning] [omni.isaac.surface_gripper] omni.isaac.surface_gripper has been deprecated in favor of isaacsim.robot.surface_gripper. Please update your code accordingly.
+[4.421s] [ext: omni.kit.manipulator.selection-106.0.1] startup
+[4.424s] [ext: omni.kit.property.bundle-1.4.1] startup
+[4.424s] [ext: omni.kit.property.isaac-1.0.6] startup
+2026-09-11T05:52:10Z [4,415ms] [Warning] [omni.kit.property.isaac] omni.kit.property.isaac has been deprecated in favor of isaacsim.gui.property. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,415ms] [Warning] [omni.kit.property.isaac.widgets] omni.kit.property.isaac.widgets has been deprecated in favor of isaacsim.gui.property.widgets. Please update your code accordingly.
+[4.425s] [ext: omni.isaac.universal_robots-1.0.6] startup
+2026-09-11T05:52:10Z [4,416ms] [Warning] [omni.isaac.universal_robots] omni.isaac.universal_robots has been deprecated in favor of isaacsim.robot.manipulators.examples.universal_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,416ms] [Warning] [omni.isaac.universal_robots.kinematics_solver] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.universal_robots. Please update your code accordingly.
+2026-09-11T05:52:10Z [4,416ms] [Warning] [omni.isaac.universal_robots.ur10] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.universal_robots. Please update your code accordingly.
+[4.426s] [ext: omni.isaac.core_nodes-2.0.6] startup
+2026-09-11T05:52:10Z [4,418ms] [Warning] [omni.isaac.core_nodes] omni.isaac.core_nodes has been deprecated in favor of isaacsim.core.nodes. Please update your code accordingly.
+[4.428s] [ext: omni.kit.viewport.menubar.camera-107.0.6] startup
+[4.434s] [ext: omni.kit.viewport.menubar.lighting-107.3.1] startup
+[4.436s] [ext: isaacsim.replicator.writers-1.0.17] startup
+[4.446s] [ext: omni.kit.viewport.menubar.render-107.0.10] startup
+[4.451s] [ext: omni.kit.viewport.menubar.settings-107.0.3] startup
+[4.456s] [ext: omni.kit.window.console-1.1.4] startup
+[4.459s] [ext: isaacsim.replicator.domain_randomization-1.0.16] startup
+[4.460s] [ext: isaacsim.replicator.examples-1.3.6] startup
+[4.462s] [ext: omni.ocio-0.1.1] startup
+[4.464s] [ext: omni.rtx.window.settings-0.6.19] startup
+[4.470s] [ext: omni.kit.window.status_bar-0.1.9] startup
+[4.473s] [ext: omni.kit.window.toolbar-2.0.0] startup
+[4.482s] [ext: omni.replicator.isaac-2.0.8] startup
+2026-09-11T05:52:10Z [4,472ms] [Warning] [omni.replicator.isaac] omni.replicator.isaac has been deprecated in favor of isaacsim.replicator.domain_randomization, isaacsim.replicator.examples, isaacsim.replicator.writers. Please update your code accordingly.
+[4.483s] [ext: omni.replicator.replicator_yaml-2.0.11] startup
+[4.496s] [ext: omni.rtx.settings.core-0.6.5] startup
+[4.500s] [ext: omni.usd.metrics.assembler.ui-107.3.1] startup
+[4.508s] [ext: omni.isaac.utils-2.0.6] startup
+[4.509s] [ext: semantics.schema.editor-2.0.2] startup
+[4.512s] [ext: omni.kit.ui.actions-1.0.5] startup
+[4.513s] [ext: semantics.schema.property-2.0.1] startup
+[4.514s] [ext: omni.isaac.version-2.0.7] startup
+2026-09-11T05:52:10Z [4,505ms] [Warning] [omni.isaac.version] omni.isaac.version has been deprecated in favor of isaacsim.core.version. Please update your code accordingly.
+[4.515s] [ext: omni.isaac.cortex-1.0.5] startup
+[4.516s] [ext: omni.anim.curve.core-1.3.1] startup
+[4.522s] [ext: isaacsim.core.throttling-2.2.2] startup
+[4.524s] [ext: omni.kit.menu.common-2.0.1] startup
+[4.525s] [ext: isaacsim.exp.base-5.1.0] startup
+[4.526s] [ext: isaacsim.exp.base.python-5.1.0] startup
+[4.527s] Simulation App Starting
+2026-09-11T05:52:10Z [4,822ms] [Warning] [omni.fabric.plugin] Warning: attribute viewPickingId not found for bucket id 9
+
+[4.848s] app ready
+Starting kit application with the following args:  ['/home/kim/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py', '/home/kim/isaacsim/apps/isaacsim.exp.base.python.kit', '--/app/tokens/exe-path=/home/kim/isaacsim/kit', '--/persistent/app/viewport/displayOptions=3094', '--/rtx/materialDb/syncLoads=True', '--/rtx/hydra/materialSyncLoads=True', '--/omni.kit.plugin/syncUsdLoads=True', '--/app/renderer/resolution/width=1280', '--/app/renderer/resolution/height=720', '--/app/window/width=1440', '--/app/window/height=900', '--/renderer/multiGpu/enabled=True', '--/app/fastShutdown=True', '--/app/installSignalHandlers=0', '--ext-folder', '/home/kim/isaacsim/exts', '--ext-folder', '/home/kim/isaacsim/apps', '--/physics/cudaDevice=0', '--/plugins/carb.tasking.plugin/threadCount=28', '--/plugins/omni.tbb.globalcontrol/maxThreadCount=28', '--portable', '--no-window', '--/app/window/hideUi=1']
+Passing the following args to the base kit application:  ['--n', '1000', '--out', 'm1013_isaac_v8', '--seed', '1']
+Warp 1.8.2 initialized:
+   CUDA Toolkit 12.8, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 5070 Ti" (15 GiB, sm_120, mempool enabled)
+   Kernel cache:
+     /home/kim/.cache/warp/1.8.2
+Warp DeprecationWarning: The `warp.sim` module is deprecated and will be removed in v1.10. Please transition to using the forthcoming Newton library instead.
+정면캠 위치 [ 1.2   -0.25   0.548] → 상판 대비 0.085 m 위
+ep000  352 프레임  큐브 (0.811, -0.178) yaw  28° → (0.677, 0.097)   6.7 s
+ep001  352 프레임  큐브 (0.721, -0.236) yaw  14° → (0.869, 0.105)   6.5 s
+ep002  404 프레임  큐브 (0.750, -0.248) yaw  71° → (0.917, 0.014)   7.5 s
+ep003  404 프레임  큐브 (0.800, -0.332) yaw  35° → (0.700, -0.088)   7.0 s
+ep004  392 프레임  큐브 (0.924, -0.297) yaw   6° → (0.642, 0.039)   7.2 s
+ep005  400 프레임  큐브 (0.670, -0.343) yaw  52° → (0.659, -0.228)   7.3 s
+ep006  375 프레임  큐브 (0.849, -0.284) yaw  27° → (0.922, -0.163)   6.9 s
+ep007  450 프레임  큐브 (0.823, -0.183) yaw  65° → (0.636, -0.280)   8.4 s
+ep008  323 프레임  큐브 (0.798, -0.193) yaw  48° → (0.676, -0.154)   5.9 s
+ep009  446 프레임  큐브 (0.953, -0.219) yaw  24° → (0.876, 0.071)   7.8 s
+ep010  363 프레임  큐브 (0.926, -0.173) yaw  10° → (0.742, -0.237)   6.4 s
+ep011  333 프레임  큐브 (0.919, -0.193) yaw  78° → (0.769, -0.028)   5.9 s
+ep012  413 프레임  큐브 (0.899, -0.270) yaw  36° → (0.712, 0.106)   7.3 s
+ep013  425 프레임  큐브 (0.798, -0.227) yaw  77° → (0.734, 0.087)   7.5 s
+ep014  379 프레임  큐브 (0.956, -0.190) yaw  60° → (0.925, 0.100)   6.6 s
+ep015  354 프레임  큐브 (0.827, -0.180) yaw  87° → (0.641, 0.058)   6.2 s
+ep016  348 프레임  큐브 (0.825, -0.205) yaw  23° → (0.825, -0.065)   6.1 s
+ep017  413 프레임  큐브 (0.923, -0.182) yaw  38° → (0.681, -0.146)   7.1 s
+ep018  396 프레임  큐브 (0.881, -0.256) yaw  14° → (0.918, 0.052)   7.0 s
+ep019  365 프레임  큐브 (0.868, -0.194) yaw   8° → (0.667, -0.132)   6.2 s
+ep020  465 프레임  큐브 (0.708, -0.263) yaw  66° → (0.827, -0.077)   8.1 s
+ep021  388 프레임  큐브 (0.750, -0.339) yaw   8° → (0.749, -0.080)   6.8 s
+ep022  373 프레임  큐브 (0.852, -0.294) yaw  79° → (0.809, -0.183)   6.6 s
+ep023  331 프레임  큐브 (0.657, -0.207) yaw  59° → (0.899, -0.323)   5.8 s
+ep024  325 프레임  큐브 (0.699, -0.285) yaw  60° → (0.874, -0.031)   5.4 s
+ep025  475 프레임  큐브 (0.863, -0.242) yaw  50° → (0.696, -0.205)   8.3 s
+ep026  390 프레임  큐브 (0.890, -0.322) yaw  40° → (0.647, -0.151)   6.6 s
+ep027  402 프레임  큐브 (0.710, -0.195) yaw  17° → (0.671, 0.030)   7.0 s
+ep028  375 프레임  큐브 (0.858, -0.233) yaw  52° → (0.830, -0.035)   6.6 s
+ep029  381 프레임  큐브 (0.912, -0.215) yaw  78° → (0.803, -0.060)   6.6 s
+ep030  363 프레임  큐브 (0.692, -0.345) yaw  46° → (0.782, 0.073)   6.2 s
+ep031  421 프레임  큐브 (0.924, -0.324) yaw  76° → (0.807, -0.356)   7.3 s
+ep032  433 프레임  큐브 (0.658, -0.309) yaw  20° → (0.727, -0.268)   7.5 s
+ep033  436 프레임  큐브 (0.931, -0.230) yaw  26° → (0.670, -0.025)   7.5 s
+ep034  384 프레임  큐브 (0.666, -0.177) yaw  16° → (0.649, -0.258)   6.8 s
+ep035  479 프레임  큐브 (0.771, -0.270) yaw  39° → (0.719, -0.353)   8.4 s
+ep036  323 프레임  큐브 (0.710, -0.293) yaw   1° → (0.837, -0.160)   5.5 s
+ep037  465 프레임  큐브 (0.904, -0.188) yaw  22° → (0.650, -0.217)   8.2 s
+ep038  392 프레임  큐브 (0.702, -0.187) yaw  89° → (0.898, -0.005)   7.2 s
+ep039  438 프레임  큐브 (0.900, -0.181) yaw  80° → (0.755, -0.255)   7.5 s
+ep040  338 프레임  큐브 (0.845, -0.252) yaw  11° → (0.900, 0.031)   6.1 s
+ep041  413 프레임  큐브 (0.864, -0.286) yaw  59° → (0.660, -0.136)   7.3 s
+ep042  454 프레임  큐브 (0.665, -0.207) yaw   3° → (0.852, -0.020)   8.1 s
+ep043  438 프레임  큐브 (0.797, -0.225) yaw  21° → (0.717, -0.267)   7.9 s
+ep044  333 프레임  큐브 (0.871, -0.285) yaw  32° → (0.759, 0.034)   6.0 s
+ep045  475 프레임  큐브 (0.923, -0.331) yaw  38° → (0.735, -0.350)   8.3 s
+ep046  465 프레임  큐브 (0.904, -0.319) yaw  41° → (0.820, -0.280)   8.3 s
+ep047  371 프레임  큐브 (0.763, -0.350) yaw  48° → (0.826, 0.103)   6.6 s
+ep048  450 프레임  큐브 (0.756, -0.278) yaw   9° → (0.647, -0.150)   8.0 s
+ep049  438 프레임  큐브 (0.789, -0.248) yaw  10° → (0.704, 0.006)   7.8 s
+ep050  433 프레임  큐브 (0.766, -0.211) yaw  49° → (0.923, -0.241)   7.3 s
+ep051  327 프레임  큐브 (0.777, -0.341) yaw  29° → (0.890, -0.216)   5.8 s
+ep052  381 프레임  큐브 (0.770, -0.243) yaw  17° → (0.816, -0.137)   7.0 s
+ep053  477 프레임  큐브 (0.926, -0.198) yaw  76° → (0.745, 0.038)   8.7 s
+ep054  346 프레임  큐브 (0.798, -0.242) yaw  18° → (0.913, -0.085)   6.2 s
+ep055  410 프레임  큐브 (0.728, -0.219) yaw  43° → (0.640, -0.148)   7.5 s
+ep056  363 프레임  큐브 (0.941, -0.349) yaw  24° → (0.859, -0.189)   6.7 s
+ep057  319 프레임  큐브 (0.822, -0.247) yaw  73° → (0.890, -0.307)   5.9 s
+ep058  360 프레임  큐브 (0.919, -0.298) yaw   6° → (0.740, -0.126)   6.2 s
+ep059  392 프레임  큐브 (0.841, -0.276) yaw  63° → (0.749, -0.340)   7.0 s
+ep060  365 프레임  큐브 (0.866, -0.182) yaw  26° → (0.885, -0.009)   6.5 s
+ep061  340 프레임  큐브 (0.893, -0.196) yaw  67° → (0.658, -0.167)   5.8 s
+ep062  363 프레임  큐브 (0.830, -0.279) yaw  64° → (0.841, 0.059)   6.4 s
+ep063  331 프레임  큐브 (0.779, -0.340) yaw  79° → (0.680, 0.079)   6.0 s
+ep064  333 프레임  큐브 (0.952, -0.350) yaw  48° → (0.899, -0.230)   6.3 s
+ep065  352 프레임  큐브 (0.733, -0.192) yaw  54° → (0.649, -0.300)   6.8 s
+ep066  323 프레임  큐브 (0.683, -0.333) yaw  88° → (0.692, 0.055)   5.9 s
+ep067  477 프레임  큐브 (0.671, -0.324) yaw  24° → (0.641, -0.103)   9.0 s
+ep068  483 프레임  큐브 (0.869, -0.345) yaw   9° → (0.717, 0.053)   8.9 s
+ep069  361 프레임  큐브 (0.776, -0.214) yaw  39° → (0.706, -0.026)   6.4 s
+ep070  446 프레임  큐브 (0.745, -0.328) yaw  24° → (0.872, 0.006)   8.1 s
+ep071  369 프레임  큐브 (0.751, -0.183) yaw  10° → (0.780, 0.061)   6.6 s
+ep072  373 프레임  큐브 (0.860, -0.214) yaw  29° → (0.662, -0.237)   7.3 s
+ep073  450 프레임  큐브 (0.677, -0.267) yaw  51° → (0.841, -0.353)   12.0 s
+ep074  394 프레임  큐브 (0.711, -0.335) yaw  52° → (0.746, 0.040)   13.6 s
+ep075  398 프레임  큐브 (0.673, -0.303) yaw  85° → (0.854, -0.095)   13.8 s
+ep076  417 프레임  큐브 (0.703, -0.261) yaw  68° → (0.737, -0.081)   14.4 s
+ep077  475 프레임  큐브 (0.953, -0.242) yaw  10° → (0.710, -0.341)   16.4 s
+ep078  383 프레임  큐브 (0.792, -0.268) yaw  66° → (0.706, 0.046)   13.2 s
+ep079  360 프레임  큐브 (0.699, -0.274) yaw  19° → (0.834, 0.047)   12.4 s
+ep080  425 프레임  큐브 (0.790, -0.301) yaw  81° → (0.899, -0.169)   14.7 s
+ep081  461 프레임  큐브 (0.656, -0.268) yaw  73° → (0.825, -0.063)   15.9 s
+ep082  371 프레임  큐브 (0.911, -0.268) yaw  15° → (0.831, 0.022)   13.0 s
+ep083  354 프레임  큐브 (0.889, -0.215) yaw  34° → (0.904, -0.103)   12.5 s
+ep084  475 프레임  큐브 (0.807, -0.268) yaw   9° → (0.815, 0.059)   16.5 s
+ep085  413 프레임  큐브 (0.925, -0.251) yaw  50° → (0.657, 0.089)   14.5 s
+ep086  346 프레임  큐브 (0.935, -0.323) yaw  39° → (0.883, -0.191)   12.9 s
+ep087  323 프레임  큐브 (0.831, -0.331) yaw  70° → (0.824, -0.187)   11.4 s
+ep088  467 프레임  큐브 (0.893, -0.235) yaw  63° → (0.908, -0.041)   16.3 s
+ep089  465 프레임  큐브 (0.940, -0.251) yaw  31° → (0.705, -0.338)   16.5 s
+ep090  329 프레임  큐브 (0.897, -0.286) yaw  44° → (0.653, -0.025)   11.7 s
+ep091  392 프레임  큐브 (0.737, -0.317) yaw  29° → (0.674, -0.225)   13.6 s
+ep092  390 프레임  큐브 (0.928, -0.250) yaw  29° → (0.889, -0.337)   13.7 s
+ep093  390 프레임  큐브 (0.833, -0.301) yaw  84° → (0.699, -0.008)   13.6 s
+ep094  438 프레임  큐브 (0.695, -0.282) yaw  24° → (0.815, -0.196)   15.2 s
+ep095  360 프레임  큐브 (0.662, -0.253) yaw  46° → (0.792, -0.189)   12.5 s
+ep096  392 프레임  큐브 (0.916, -0.174) yaw  82° → (0.871, -0.048)   13.7 s
+ep097  360 프레임  큐브 (0.784, -0.234) yaw   9° → (0.707, 0.052)   12.7 s
+ep098  413 프레임  큐브 (0.708, -0.266) yaw  26° → (0.705, -0.094)   14.4 s
+ep099  390 프레임  큐브 (0.735, -0.184) yaw  57° → (0.858, 0.095)   13.5 s
+ep100  352 프레임  큐브 (0.900, -0.205) yaw  72° → (0.898, -0.060)   12.2 s
+ep101  421 프레임  큐브 (0.903, -0.172) yaw  71° → (0.649, -0.344)   14.5 s
+ep102  319 프레임  큐브 (0.832, -0.275) yaw   5° → (0.889, -0.136)   11.1 s
+ep103  485 프레임  큐브 (0.699, -0.327) yaw  36° → (0.920, -0.212)   16.8 s
+ep104  317 프레임  큐브 (0.735, -0.302) yaw  81° → (0.712, -0.131)   11.7 s
+ep105  348 프레임  큐브 (0.915, -0.265) yaw  82° → (0.797, 0.073)   12.1 s
+ep106  415 프레임  큐브 (0.721, -0.317) yaw  43° → (0.824, -0.240)   14.3 s
+ep107  369 프레임  큐브 (0.927, -0.323) yaw   1° → (0.755, 0.057)   12.8 s
+ep108  319 프레임  큐브 (0.849, -0.200) yaw  14° → (0.758, -0.006)   11.0 s
+ep109  404 프레임  큐브 (0.884, -0.312) yaw  88° → (0.731, -0.328)   14.0 s
+ep110  456 프레임  큐브 (0.757, -0.249) yaw   6° → (0.710, 0.059)   15.7 s
+ep111  454 프레임  큐브 (0.809, -0.172) yaw  42° → (0.873, -0.099)   15.7 s
+ep112  413 프레임  큐브 (0.820, -0.219) yaw   9° → (0.921, 0.060)   14.3 s
+ep113  381 프레임  큐브 (0.835, -0.185) yaw  70° → (0.742, -0.021)   13.2 s
+ep114  396 프레임  큐브 (0.666, -0.210) yaw  32° → (0.848, -0.229)   13.7 s
+ep115  331 프레임  큐브 (0.730, -0.354) yaw  87° → (0.894, -0.342)   11.5 s
+ep116  440 프레임  큐브 (0.901, -0.354) yaw  53° → (0.732, -0.167)   15.1 s
+ep117  352 프레임  큐브 (0.844, -0.265) yaw  48° → (0.726, -0.008)   12.2 s
+ep118  383 프레임  큐브 (0.799, -0.352) yaw  39° → (0.777, -0.229)   13.2 s
+ep119  427 프레임  큐브 (0.682, -0.210) yaw  51° → (0.793, -0.016)   14.8 s
+ep120  446 프레임  큐브 (0.798, -0.344) yaw  15° → (0.685, -0.111)   15.4 s
+ep121  431 프레임  큐브 (0.666, -0.266) yaw  18° → (0.861, 0.038)   14.9 s
+ep122  363 프레임  큐브 (0.911, -0.240) yaw   8° → (0.911, 0.081)   12.7 s
+ep123  406 프레임  큐브 (0.796, -0.287) yaw  10° → (0.736, -0.137)   14.0 s
+ep124  417 프레임  큐브 (0.822, -0.206) yaw  53° → (0.654, 0.098)   14.4 s
+ep125  381 프레임  큐브 (0.842, -0.346) yaw  79° → (0.691, -0.300)   13.2 s
+ep126  446 프레임  큐브 (0.663, -0.345) yaw  15° → (0.904, -0.350)   15.5 s
+ep127  340 프레임  큐브 (0.918, -0.325) yaw  65° → (0.763, -0.197)   11.8 s
+ep128  425 프레임  큐브 (0.659, -0.191) yaw   9° → (0.652, 0.019)   14.4 s
+ep129  475 프레임  큐브 (0.769, -0.330) yaw   6° → (0.904, 0.085)   16.5 s
+ep130  475 프레임  큐브 (0.785, -0.290) yaw  51° → (0.744, -0.076)   16.4 s
+ep131  444 프레임  큐브 (0.932, -0.318) yaw  88° → (0.745, 0.071)   15.7 s
+ep132  325 프레임  큐브 (0.947, -0.191) yaw  14° → (0.834, -0.271)   11.4 s
+ep133  429 프레임  큐브 (0.715, -0.196) yaw  85° → (0.785, 0.054)   14.7 s
+ep134  390 프레임  큐브 (0.940, -0.261) yaw  31° → (0.842, -0.258)   13.7 s
+ep135  429 프레임  큐브 (0.691, -0.317) yaw  36° → (0.896, -0.213)   15.1 s
+ep136  402 프레임  큐브 (0.871, -0.207) yaw  71° → (0.696, 0.097)   13.9 s
+ep137  467 프레임  큐브 (0.904, -0.342) yaw   6° → (0.647, -0.251)   16.2 s
+ep138  444 프레임  큐브 (0.869, -0.175) yaw  33° → (0.782, 0.047)   15.9 s
+ep139  469 프레임  큐브 (0.776, -0.256) yaw  86° → (0.702, 0.018)   16.1 s
+ep140  392 프레임  큐브 (0.932, -0.209) yaw  27° → (0.686, -0.026)   13.6 s
+ep141  390 프레임  큐브 (0.674, -0.342) yaw  44° → (0.808, -0.244)   13.5 s
+ep142  446 프레임  큐브 (0.953, -0.272) yaw  63° → (0.769, -0.246)   15.5 s
+ep143  450 프레임  큐브 (0.721, -0.291) yaw   2° → (0.747, -0.077)   15.4 s
+ep144  419 프레임  큐브 (0.864, -0.210) yaw  22° → (0.724, -0.041)   14.5 s
+ep145  463 프레임  큐브 (0.711, -0.227) yaw  75° → (0.863, -0.007)   15.9 s
+ep146  471 프레임  큐브 (0.676, -0.331) yaw  29° → (0.805, 0.031)   16.2 s
+ep147  423 프레임  큐브 (0.688, -0.217) yaw   2° → (0.897, -0.064)   14.6 s
+ep148  377 프레임  큐브 (0.929, -0.287) yaw  84° → (0.893, -0.051)   13.2 s
+ep149  390 프레임  큐브 (0.791, -0.173) yaw  60° → (0.636, -0.335)   13.5 s
+ep150  334 프레임  큐브 (0.761, -0.227) yaw  54° → (0.654, -0.309)   11.6 s
+ep151  417 프레임  큐브 (0.799, -0.322) yaw  17° → (0.731, 0.015)   14.5 s
+ep152  406 프레임  큐브 (0.940, -0.184) yaw  17° → (0.775, -0.274)   14.1 s
+ep153  338 프레임  큐브 (0.945, -0.302) yaw  30° → (0.824, 0.067)   11.8 s
+ep154  413 프레임  큐브 (0.690, -0.328) yaw  31° → (0.795, -0.012)   14.3 s
+ep155  427 프레임  큐브 (0.951, -0.238) yaw  50° → (0.864, -0.276)   15.0 s
+ep156  485 프레임  큐브 (0.838, -0.192) yaw  48° → (0.692, -0.285)   15.6 s
+ep157  431 프레임  큐브 (0.920, -0.215) yaw  41° → (0.722, 0.094)   15.0 s
+ep158  342 프레임  큐브 (0.827, -0.333) yaw  74° → (0.807, -0.129)   11.9 s
+ep159  317 프레임  큐브 (0.664, -0.241) yaw   7° → (0.763, -0.032)   11.1 s
+ep160  485 프레임  큐브 (0.855, -0.251) yaw  80° → (0.799, -0.001)   16.8 s
+ep161  404 프레임  큐브 (0.835, -0.209) yaw  36° → (0.734, 0.013)   14.1 s
+ep162  327 프레임  큐브 (0.901, -0.303) yaw  24° → (0.669, -0.089)   11.5 s
+ep163  477 프레임  큐브 (0.877, -0.349) yaw  35° → (0.762, -0.088)   16.5 s
+ep164  369 프레임  큐브 (0.842, -0.351) yaw  16° → (0.862, -0.109)   13.0 s
+ep165  379 프레임  큐브 (0.906, -0.307) yaw  34° → (0.829, -0.183)   13.2 s
+ep166  413 프레임  큐브 (0.825, -0.320) yaw   5° → (0.733, -0.259)   14.3 s
+ep167  340 프레임  큐브 (0.723, -0.177) yaw  35° → (0.829, -0.322)   12.0 s
+ep168  425 프레임  큐브 (0.702, -0.312) yaw  47° → (0.830, -0.087)   14.8 s
+ep169  425 프레임  큐브 (0.692, -0.216) yaw  68° → (0.714, 0.096)   14.8 s
+ep170  352 프레임  큐브 (0.660, -0.212) yaw   6° → (0.813, -0.087)   12.3 s
+ep171  375 프레임  큐브 (0.914, -0.245) yaw  56° → (0.810, -0.287)   13.1 s
+ep172  361 프레임  큐브 (0.790, -0.304) yaw  23° → (0.845, -0.190)   12.6 s
+ep173  384 프레임  큐브 (0.719, -0.328) yaw  75° → (0.679, -0.053)   12.8 s
+ep174  436 프레임  큐브 (0.957, -0.173) yaw  58° → (0.660, -0.298)   15.2 s
+ep175  425 프레임  큐브 (0.735, -0.301) yaw  19° → (0.761, 0.074)   14.7 s
+ep176  352 프레임  큐브 (0.920, -0.309) yaw  30° → (0.665, -0.099)   12.4 s
+ep177  402 프레임  큐브 (0.716, -0.318) yaw  63° → (0.891, -0.008)   14.0 s
+ep178  361 프레임  큐브 (0.827, -0.177) yaw   4° → (0.886, -0.245)   12.5 s
+ep179  410 프레임  큐브 (0.766, -0.308) yaw  23° → (0.677, -0.178)   14.2 s
+ep180  479 프레임  큐브 (0.942, -0.299) yaw  52° → (0.763, -0.206)   16.6 s
+ep181  440 프레임  큐브 (0.787, -0.269) yaw   7° → (0.847, -0.081)   15.1 s
+ep182  323 프레임  큐브 (0.781, -0.346) yaw   3° → (0.828, -0.146)   11.2 s
+ep183  467 프레임  큐브 (0.778, -0.189) yaw  75° → (0.850, -0.072)   15.9 s
+ep184  421 프레임  큐브 (0.758, -0.296) yaw  25° → (0.911, -0.345)   14.6 s
+ep185  413 프레임  큐브 (0.777, -0.332) yaw  82° → (0.854, -0.172)   14.3 s
+ep186  352 프레임  큐브 (0.799, -0.355) yaw  50° → (0.800, -0.191)   12.2 s
+ep187  381 프레임  큐브 (0.695, -0.178) yaw  15° → (0.753, 0.027)   13.2 s
+ep188  346 프레임  큐브 (0.957, -0.183) yaw  62° → (0.692, -0.123)   12.2 s
+ep189  475 프레임  큐브 (0.937, -0.249) yaw  72° → (0.646, 0.034)   16.8 s
+ep190  325 프레임  큐브 (0.728, -0.236) yaw  19° → (0.647, -0.095)   11.2 s
+ep191  402 프레임  큐브 (0.921, -0.188) yaw  35° → (0.759, -0.340)   13.9 s
+ep192  354 프레임  큐브 (0.777, -0.213) yaw  72° → (0.703, -0.135)   12.3 s
+ep193  334 프레임  큐브 (0.673, -0.274) yaw   7° → (0.801, -0.130)   11.6 s
+ep194  392 프레임  큐브 (0.831, -0.350) yaw  62° → (0.723, -0.202)   13.8 s
+ep195  442 프레임  큐브 (0.669, -0.345) yaw  71° → (0.911, 0.077)   15.2 s
+ep196  373 프레임  큐브 (0.943, -0.179) yaw  51° → (0.794, -0.096)   13.0 s
+ep197  350 프레임  큐브 (0.898, -0.225) yaw  70° → (0.685, -0.292)   12.2 s
+ep198  321 프레임  큐브 (0.739, -0.329) yaw   9° → (0.807, 0.091)   11.2 s
+ep199  342 프레임  큐브 (0.917, -0.276) yaw  71° → (0.768, -0.015)   12.1 s
+ep200  404 프레임  큐브 (0.694, -0.215) yaw  40° → (0.832, 0.119)   14.1 s
+ep201  442 프레임  큐브 (0.751, -0.355) yaw  58° → (0.726, -0.097)   15.2 s
+ep202  433 프레임  큐브 (0.800, -0.336) yaw  89° → (0.645, 0.065)   15.0 s
+ep203  365 프레임  큐브 (0.943, -0.190) yaw  31° → (0.747, -0.273)   12.9 s
+ep204  363 프레임  큐브 (0.819, -0.206) yaw  84° → (0.672, -0.137)   12.6 s
+ep205  461 프레임  큐브 (0.726, -0.311) yaw  84° → (0.880, -0.199)   15.9 s
+ep206  404 프레임  큐브 (0.846, -0.231) yaw  16° → (0.791, 0.018)   14.0 s
+ep207  354 프레임  큐브 (0.662, -0.217) yaw  46° → (0.709, -0.091)   13.0 s
+ep208  421 프레임  큐브 (0.693, -0.235) yaw  54° → (0.641, 0.065)   14.6 s
+ep209  394 프레임  큐브 (0.807, -0.286) yaw  31° → (0.904, -0.052)   13.5 s
+ep210  421 프레임  큐브 (0.716, -0.309) yaw  73° → (0.820, -0.352)   14.6 s
+ep211  365 프레임  큐브 (0.681, -0.205) yaw  22° → (0.834, -0.311)   12.7 s
+ep212  321 프레임  큐브 (0.822, -0.220) yaw  42° → (0.922, -0.038)   11.5 s
+ep213  321 프레임  큐브 (0.678, -0.210) yaw  37° → (0.816, -0.286)   11.3 s
+ep214  375 프레임  큐브 (0.656, -0.258) yaw  41° → (0.868, -0.334)   13.2 s
+ep215  371 프레임  큐브 (0.908, -0.215) yaw  11° → (0.763, -0.321)   13.0 s
+ep216  319 프레임  큐브 (0.742, -0.313) yaw  42° → (0.922, 0.118)   11.2 s
+ep217  383 프레임  큐브 (0.935, -0.321) yaw   2° → (0.686, 0.105)   13.4 s
+ep218  356 프레임  큐브 (0.834, -0.329) yaw  43° → (0.712, 0.094)   12.4 s
+ep219  392 프레임  큐브 (0.829, -0.282) yaw  40° → (0.686, -0.285)   13.8 s
+ep220  450 프레임  큐브 (0.770, -0.346) yaw  56° → (0.784, -0.053)   15.6 s
+ep221  479 프레임  큐브 (0.665, -0.314) yaw   9° → (0.921, 0.052)   16.5 s
+ep222  419 프레임  큐브 (0.878, -0.282) yaw  88° → (0.916, -0.104)   14.7 s
+ep223  381 프레임  큐브 (0.776, -0.202) yaw  25° → (0.881, 0.099)   13.3 s
+ep224  411 프레임  큐브 (0.773, -0.351) yaw  28° → (0.865, 0.038)   14.5 s
+ep225  329 프레임  큐브 (0.703, -0.232) yaw  27° → (0.798, -0.065)   11.5 s
+ep226  331 프레임  큐브 (0.925, -0.205) yaw  21° → (0.748, 0.101)   12.1 s
+ep227  440 프레임  큐브 (0.755, -0.250) yaw  18° → (0.876, -0.229)   15.1 s
+ep228  450 프레임  큐브 (0.816, -0.352) yaw  67° → (0.763, -0.004)   15.7 s
+ep229  419 프레임  큐브 (0.835, -0.334) yaw  54° → (0.910, -0.131)   14.6 s
+ep230  384 프레임  큐브 (0.948, -0.321) yaw   8° → (0.688, -0.241)   13.5 s
+ep231  319 프레임  큐브 (0.876, -0.349) yaw  17° → (0.766, -0.137)   11.3 s
+ep232  375 프레임  큐브 (0.660, -0.242) yaw  76° → (0.686, 0.013)   12.9 s
+ep233  377 프레임  큐브 (0.922, -0.240) yaw  28° → (0.896, -0.097)   13.2 s
+ep234  467 프레임  큐브 (0.740, -0.328) yaw  45° → (0.649, 0.078)   16.0 s
+ep235  440 프레임  큐브 (0.900, -0.329) yaw  22° → (0.923, 0.053)   15.4 s
+ep236  321 프레임  큐브 (0.798, -0.247) yaw  48° → (0.796, -0.010)   11.1 s
+ep237  331 프레임  큐브 (0.702, -0.335) yaw  41° → (0.832, 0.018)   11.7 s
+ep238  365 프레임  큐브 (0.656, -0.310) yaw  75° → (0.776, -0.071)   12.9 s
+ep239  323 프레임  큐브 (0.808, -0.268) yaw   3° → (0.787, -0.021)   11.4 s
+ep240  433 프레임  큐브 (0.810, -0.324) yaw   2° → (0.924, -0.264)   15.3 s
+ep241  352 프레임  큐브 (0.698, -0.334) yaw  72° → (0.802, -0.156)   12.4 s
+ep242  348 프레임  큐브 (0.785, -0.188) yaw  17° → (0.875, 0.098)   12.2 s
+ep243  411 프레임  큐브 (0.657, -0.322) yaw  77° → (0.854, -0.070)   14.3 s
+ep244  400 프레임  큐브 (0.673, -0.297) yaw  22° → (0.772, -0.185)   13.9 s
+ep245  340 프레임  큐브 (0.737, -0.345) yaw  30° → (0.792, -0.063)   12.0 s
+ep246  381 프레임  큐브 (0.910, -0.289) yaw  34° → (0.671, -0.157)   13.4 s
+ep247  363 프레임  큐브 (0.890, -0.180) yaw  11° → (0.724, -0.107)   12.5 s
+ep248  327 프레임  큐브 (0.845, -0.204) yaw  21° → (0.693, -0.016)   11.4 s
+ep249  361 프레임  큐브 (0.872, -0.287) yaw  25° → (0.739, -0.259)   12.8 s
+ep250  448 프레임  큐브 (0.730, -0.291) yaw  88° → (0.883, 0.006)   15.6 s
+ep251  404 프레임  큐브 (0.669, -0.203) yaw   2° → (0.658, -0.298)   14.2 s
+ep252  369 프레임  큐브 (0.728, -0.193) yaw  20° → (0.832, -0.187)   13.0 s
+ep253  390 프레임  큐브 (0.713, -0.349) yaw  17° → (0.667, -0.274)   13.6 s
+ep254  461 프레임  큐브 (0.810, -0.338) yaw  56° → (0.863, -0.097)   16.4 s
+ep255  375 프레임  큐브 (0.723, -0.175) yaw  82° → (0.910, -0.147)   13.1 s
+ep256  319 프레임  큐브 (0.790, -0.184) yaw  51° → (0.851, -0.282)   11.3 s
+ep257  396 프레임  큐브 (0.824, -0.250) yaw  48° → (0.697, 0.053)   14.2 s
+ep258  431 프레임  큐브 (0.747, -0.296) yaw  11° → (0.686, -0.078)   15.1 s
+ep259  421 프레임  큐브 (0.736, -0.350) yaw  14° → (0.664, -0.002)   14.6 s
+ep260  369 프레임  큐브 (0.666, -0.341) yaw  46° → (0.646, -0.128)   12.9 s
+ep261  413 프레임  큐브 (0.704, -0.332) yaw  36° → (0.868, -0.286)   14.4 s
+ep262  475 프레임  큐브 (0.747, -0.217) yaw  32° → (0.833, -0.059)   16.6 s
+ep263  369 프레임  큐브 (0.873, -0.264) yaw  11° → (0.897, -0.186)   13.2 s
+ep264  477 프레임  큐브 (0.853, -0.326) yaw  67° → (0.642, -0.352)   16.5 s
+ep265  425 프레임  큐브 (0.660, -0.330) yaw  15° → (0.840, 0.113)   14.7 s
+ep266  363 프레임  큐브 (0.858, -0.192) yaw  72° → (0.729, -0.016)   12.8 s
+ep267  417 프레임  큐브 (0.809, -0.354) yaw  54° → (0.894, -0.208)   14.8 s
+ep268  323 프레임  큐브 (0.729, -0.299) yaw  14° → (0.817, -0.130)   11.3 s
+ep269  446 프레임  큐브 (0.884, -0.335) yaw  61° → (0.790, -0.289)   15.6 s
+ep270  363 프레임  큐브 (0.817, -0.289) yaw  32° → (0.921, -0.286)   13.0 s
+ep271  333 프레임  큐브 (0.881, -0.302) yaw  65° → (0.890, -0.131)   12.3 s
+ep272  361 프레임  큐브 (0.957, -0.275) yaw   4° → (0.730, -0.021)   12.6 s
+ep273  338 프레임  큐브 (0.755, -0.345) yaw  81° → (0.809, -0.235)   11.7 s
+ep274  446 프레임  큐브 (0.752, -0.308) yaw   4° → (0.638, -0.181)   15.5 s
+ep275  392 프레임  큐브 (0.802, -0.190) yaw  81° → (0.718, -0.336)   13.7 s
+ep276  425 프레임  큐브 (0.661, -0.270) yaw  58° → (0.825, -0.303)   14.4 s
+ep277  363 프레임  큐브 (0.918, -0.308) yaw  42° → (0.783, 0.117)   12.8 s
+ep278  344 프레임  큐브 (0.758, -0.192) yaw  89° → (0.708, -0.357)   12.0 s
+ep279  446 프레임  큐브 (0.707, -0.271) yaw  66° → (0.810, -0.102)   15.4 s
+ep280  421 프레임  큐브 (0.924, -0.200) yaw  12° → (0.827, -0.338)   14.8 s
+ep281  381 프레임  큐브 (0.800, -0.291) yaw  13° → (0.739, -0.001)   14.0 s
+ep282  421 프레임  큐브 (0.763, -0.251) yaw  37° → (0.707, 0.096)   14.4 s
+ep283  319 프레임  큐브 (0.939, -0.240) yaw  48° → (0.788, 0.104)   11.2 s
+ep284  381 프레임  큐브 (0.738, -0.342) yaw   5° → (0.725, -0.252)   13.3 s
+ep285  321 프레임  큐브 (0.658, -0.262) yaw  32° → (0.904, 0.087)   11.2 s
+ep286  444 프레임  큐브 (0.882, -0.243) yaw  63° → (0.796, -0.324)   15.4 s
+ep287  363 프레임  큐브 (0.876, -0.292) yaw  24° → (0.639, 0.092)   12.6 s
+ep288  333 프레임  큐브 (0.869, -0.248) yaw  39° → (0.657, -0.220)   11.6 s
+ep289  338 프레임  큐브 (0.816, -0.217) yaw  76° → (0.894, -0.048)   11.8 s
+ep290  446 프레임  큐브 (0.779, -0.182) yaw  56° → (0.845, -0.137)   15.4 s
+ep291  379 프레임  큐브 (0.760, -0.183) yaw  31° → (0.679, -0.289)   13.1 s
+ep292  392 프레임  큐브 (0.816, -0.348) yaw  77° → (0.701, 0.071)   13.7 s
+ep293  438 프레임  큐브 (0.737, -0.292) yaw  13° → (0.766, -0.181)   15.1 s
+ep294  454 프레임  큐브 (0.806, -0.187) yaw  50° → (0.885, -0.047)   15.9 s
+ep295  361 프레임  큐브 (0.897, -0.291) yaw  64° → (0.886, 0.097)   12.7 s
+ep296  373 프레임  큐브 (0.679, -0.181) yaw  34° → (0.854, -0.001)   12.9 s
+ep297  458 프레임  큐브 (0.668, -0.232) yaw  64° → (0.853, -0.265)   15.8 s
+ep298  467 프레임  큐브 (0.769, -0.302) yaw  36° → (0.741, -0.192)   16.3 s
+ep299  363 프레임  큐브 (0.746, -0.288) yaw  64° → (0.756, 0.022)   12.7 s
+ep300  427 프레임  큐브 (0.871, -0.347) yaw  43° → (0.870, -0.065)   14.7 s
+ep301  360 프레임  큐브 (0.788, -0.306) yaw  86° → (0.916, -0.157)   12.5 s
+ep302  402 프레임  큐브 (0.814, -0.197) yaw  17° → (0.852, -0.029)   14.0 s
+ep303  465 프레임  큐브 (0.751, -0.339) yaw  16° → (0.918, -0.252)   16.1 s
+ep304  425 프레임  큐브 (0.807, -0.340) yaw  25° → (0.905, 0.121)   15.0 s
+ep305  459 프레임  큐브 (0.657, -0.249) yaw  37° → (0.787, -0.334)   15.9 s
+ep306  392 프레임  큐브 (0.778, -0.263) yaw  19° → (0.720, -0.012)   13.7 s
+ep307  442 프레임  큐브 (0.713, -0.259) yaw  40° → (0.871, -0.124)   15.6 s
+ep308  331 프레임  큐브 (0.790, -0.217) yaw  79° → (0.833, -0.315)   11.8 s
+ep309  396 프레임  큐브 (0.870, -0.286) yaw  16° → (0.899, -0.126)   13.9 s
+ep310  390 프레임  큐브 (0.729, -0.345) yaw  20° → (0.759, -0.199)   13.5 s
+ep311  467 프레임  큐브 (0.677, -0.331) yaw  39° → (0.840, -0.328)   16.3 s
+ep312  467 프레임  큐브 (0.692, -0.224) yaw   1° → (0.837, -0.096)   16.2 s
+ep313  438 프레임  큐브 (0.657, -0.234) yaw  82° → (0.713, 0.093)   15.2 s
+ep314  356 프레임  큐브 (0.833, -0.170) yaw  57° → (0.672, -0.352)   12.4 s
+ep315  456 프레임  큐브 (0.840, -0.297) yaw   8° → (0.817, -0.121)   15.8 s
+ep316  477 프레임  큐브 (0.872, -0.218) yaw   8° → (0.732, -0.183)   16.6 s
+ep317  334 프레임  큐브 (0.738, -0.193) yaw  35° → (0.682, 0.070)   11.7 s
+ep318  423 프레임  큐브 (0.798, -0.213) yaw  85° → (0.657, -0.026)   14.8 s
+ep319  450 프레임  큐브 (0.947, -0.186) yaw  22° → (0.694, -0.091)   15.8 s

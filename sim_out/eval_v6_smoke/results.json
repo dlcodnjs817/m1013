@@ -1,0 +1,79 @@
+{
+ "summary": {
+  "ckpt": "/root/train_m1013_act_v6_tcp0725/checkpoints/last/pretrained_model",
+  "n": 3,
+  "grasp_rate": 0.0,
+  "lift_rate": 0.0,
+  "place_rate": 0.0,
+  "median_min_dist_mm": 101.1,
+  "table_z": 0.4624,
+  "ws_scale": 1.0,
+  "dr": false,
+  "seed": 100
+ },
+ "episodes": [
+  {
+   "ep": 0,
+   "pick": [
+    0.8746662893614058,
+    -0.2504307466290141
+   ],
+   "yaw_deg": 25.997691752208322,
+   "grasped": false,
+   "lifted": false,
+   "placed": false,
+   "t_grasp": null,
+   "t_place": null,
+   "min_tcp_cube_mm": 101.1,
+   "max_dq_deg": 5.39,
+   "steps": 600,
+   "final_cube": [
+    0.8746662893614058,
+    -0.2504307466290141,
+    0.4799
+   ]
+  },
+  {
+   "ep": 1,
+   "pick": [
+    0.9042587540867079,
+    -0.28940749374779395
+   ],
+   "yaw_deg": 56.63458527741452,
+   "grasped": false,
+   "lifted": false,
+   "placed": false,
+   "t_grasp": null,
+   "t_place": null,
+   "min_tcp_cube_mm": 164.1,
+   "max_dq_deg": 5.16,
+   "steps": 600,
+   "final_cube": [
+    0.9042587540867079,
+    -0.28940749374779395,
+    0.4799
+   ]
+  },
+  {
+   "ep": 2,
+   "pick": [
+    0.8058206792829186,
+    -0.20029068835347633
+   ],
+   "yaw_deg": 88.07597292326035,
+   "grasped": false,
+   "lifted": false,
+   "placed": false,
+   "t_grasp": null,
+   "t_place": null,
+   "min_tcp_cube_mm": 50.6,
+   "max_dq_deg": 4.57,
+   "steps": 600,
+   "final_cube": [
+    0.8058206792829186,
+    -0.20029068835347633,
+    0.4799
+   ]
+  }
+ ]
+}

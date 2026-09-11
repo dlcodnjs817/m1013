@@ -1,0 +1,4 @@
+Loading weights from local directory
+정책 로드 /root/train_m1013_act_v6_tcp0725/checkpoints/last/pretrained_model chunk 100 n_action_steps 100
+listening 5555
+세션 종료 1800 행동 106.1 s
