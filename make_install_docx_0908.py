@@ -159,7 +159,7 @@ table(doc, ['품목', '재질 / 수량', '상태'], [
     ['어댑터 플레이트  adapter_m1013_mhf2.step', 'AL6061-T6 / 1', '절삭 외주 — 리드타임 최우선'],
     ['핑거 좌 · 우  finger_left/right.step', 'AL6061-T6 / 2', '절삭 외주 (PETG 시제품 선검증 권장)'],
     ['밸브 브래킷  valve_bracket_sy5120.stl', 'PETG / 1', '자체 출력 가능 (09-08 재생성분)'],
-    ['손목캠 브래킷  wristcam_bracket.stl', 'PETG / 1', '출력 금지 — 카메라 미선정'],
+    ['손목캠 브래킷  wristcam_bracket_v2.stl', 'PETG / 1', '렌즈 스탠드오프 실측 후 출력 (09-11 재설계)'],
 ], widths=[7.0, 3.6, 5.9])
 h(doc, '2.2 체결', 2)
 table(doc, ['품목', '수량', '용도 · 토크'], [
