@@ -115,6 +115,14 @@ for i in range(len(names)):
 asm = None
 for v in parts.values():
     asm = v if asm is None else asm.fuse(v)
+
+# 손목캠 브래킷을 뺀 판도 따로 내보낸다 — 손목캠 시점 렌더에서 브래킷만 색을 달리하려고
+nw = None
+for k, v in parts.items():
+    if k == '손목캠 브래킷':
+        continue
+    nw = v if nw is None else nw.fuse(v)
+cq.exporters.export(cq.Workplane(obj=nw), 'cad/tool_assembly_nowrist.stl', tolerance=0.08)
 cq.exporters.export(cq.Workplane(obj=asm), 'cad/tool_assembly_flangelocal.stl', tolerance=0.08)
 b = asm.BoundingBox()
 print('\n어셈블리 BBox  X %.1f~%.1f  Y %.1f~%.1f  Z %.1f~%.1f' % (b.xmin,b.xmax,b.ymin,b.ymax,b.zmin,b.zmax))
